@@ -93,13 +93,13 @@
 <h4 id="宏观上的理解"><a href="#宏观上的理解" class="headerlink" title="宏观上的理解"></a>宏观上的理解</h4><p>GAN实际上是一个D、G的极大极小博弈。存在一个真实分布$P_{data}(x)$  和生成分布 $P_g(x)$ ,生成器G的目的是让生成分布 $P_g(x)$ 靠近真实分布$P_{data} (x)$ ，而判别器D的目的是区分两个分布。</p>
 <p>我们需要的是这个可以以假乱真的生成网络。最优情况是$P_g(x)=P_{data}(x)$ ,此时D(x)=0.5。</p>
 <p>下图GAN 的原理示意图：</p>
-<p><img src="../image/GAN/GANdemo.png" alt="GANdemo"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/GANdemo.png" alt="GANdemo"></p>
 <p>黑色虚线的分布是真实分布，绿色的分布是生成分布，蓝色虚线是判别分布，z是随机噪声，通过生成器将z映射到数据空间 x=G(z)，GAN会训练并更新判别分布（蓝色），指引生成分布向真实分布靠拢。</p>
 <p>D、G的最大最小博弈值函数函数V(G,D):</p>
-<p><img src="../image/GAN/value%20function.png" alt="value function"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/value%20function.png" alt="value function"></p>
 <p>D(x)表示x来自真实数据集，而非生成数据集。训练D以最好的区分样本来自真实数据和生成数据，也就是最大化D(x),同时训练G以最小化log(1-D(G(z))), 可直观的理解为训练G生成的质量来使得D(G(z)) 最大，也就是log(1-D(G(z)))最小。</p>
 <p>原论文表明在非参数限制的情况下可以得到最优解，这里的非参数限制，我不是很理解。</p>
-<h4 id="GAN算法："><a href="#GAN算法：" class="headerlink" title="GAN算法："></a>GAN算法：</h4><p><img src="../image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2010.43.54.png" alt="屏幕快照 2018-07-29 10.43.54"></p>
+<h4 id="GAN算法："><a href="#GAN算法：" class="headerlink" title="GAN算法："></a>GAN算法：</h4><p><img src="/2018/07/24/GAN/image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2010.43.54.png" alt="屏幕快照 2018-07-29 10.43.54"></p>
 <p>说明：</p>
 <ol>
 <li>在收敛点附近的对抗训练$P_r$ 和$P_g$  相似，D是一个局部准确的分类器。</li>
@@ -109,19 +109,19 @@
 </ol>
 <h4 id="GAN原理形式化的定义及说明"><a href="#GAN原理形式化的定义及说明" class="headerlink" title="GAN原理形式化的定义及说明"></a>GAN原理形式化的定义及说明</h4><p>GAN的目标是：生成器生成与真实数据几乎没有区别的样本，即将随机变量生成为某一种概率分布，也可以说概率密度函数为相等的。这可以通过构造最优化问题来解决，即定义一个最优化问题，其中最优生成器 G 满足$ P_G(x)=P_{data}(x)$。如果我们知道求解的 G 最后会满足该关系，那么我们就可以合理地期望神经网络通过典型的 SGD 训练就能得到最优的 G。</p>
 <p>作者将最优化问题定义为一个值函数V(G&lt;D) ：</p>
-<p><img src="../image/GAN/value.png" alt="value"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/value.png" alt="value"></p>
 <p>其中第一项是定义一个判别器 D 以判别样本是不是从 $ P_{data}(x) $ 分布中取出来的，最大化这一项相当于令判别器 D 在 x 服从于 data 的概率密度时能准确地预测 D(x)=1。第二项是企图欺骗判别器的生成器 G，$D(G(z))\in(-1,1)$ , log(1-D(G(z)))&lt;0, 当G没有欺骗到D时，第二项的均值接近0，因此，判别器的目标为最大化上面值函数。</p>
 <p>给定生成器G，最优判别器可以表示为：<br>$$<br>D^<em>_G=argmax_DV(G,D)<br>$$<br>当$D=D^</em>_G$ 固定，优化G时，G的目标是<br>$$<br>G^<em>=argmin_GV(G,D^</em>_G)<br>$$<br>GAN的极大极小博弈也就是：</p>
-<p><img src="../image/GAN/value%20function.png" alt="value function"> </p>
+<p><img src="/2018/07/24/GAN/image/GAN/value%20function.png" alt="value function"> </p>
 <p>GAN的训练过程可以看成是一个迭代过程，其中每次迭代包含：先固定G，最大化D，然后固定D，最小化G 。</p>
 <h4 id="优化问题的推导"><a href="#优化问题的推导" class="headerlink" title="优化问题的推导"></a>优化问题的推导</h4><ol>
 <li>证明固定G,  最优判别器为 $D_G^*(x)=\frac{P_{data}(x)}{P_{data}(x)+P_g(x)}$  ：</li>
 </ol>
-<p>值函数：<img src="../image/GAN/value.png" alt="value"></p>
+<p>值函数：<img src="/2018/07/24/GAN/image/GAN/value.png" alt="value"></p>
 <p>可以写成积分形式：</p>
-<p><img src="../image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2014.51.00.png" alt="屏幕快照 2018-07-29 14.51.00"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2014.51.00.png" alt="屏幕快照 2018-07-29 14.51.00"></p>
 <p>利用积分换元可写成：</p>
-<p><img src="../image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2014.51.09.png" alt="屏幕快照 2018-07-29 14.51.09"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2014.51.09.png" alt="屏幕快照 2018-07-29 14.51.09"></p>
 <p>对这一项求极值，令一阶导=0 可得:<br>$$<br>D^<em>(x)=\frac{P_{data}(x)}{P_{data}(x)+P_g(x)}<br>$$<br>求二阶导，二阶导&lt;0,因此 $D^</em>(x)$ 为极大值。</p>
 <p>最优判别器得证。</p>
 <ol>
@@ -129,22 +129,22 @@
 </ol>
 <p>2.1  证明必要性：当  $P_g(x)=P_{data}(x)$ 时达到全局最小。</p>
 <p>当$P_g(x)=P_{data}(x)$ 时，$D^*(x)=\frac{P_{data}(x)}{P_{data}(x)+P_g(x)}=\frac{1}{2}$ , 带入值函数V(G,D)得</p>
-<p><img src="../image/GAN/pr.png" alt="pr"></p>
+<p><img src="/2018/07/24/GAN/image/GAN/pr.png" alt="pr"></p>
 <p>2.2  证明充分性：全局最小的条件是  $P_g(x)=P_{data}(x)$ </p>
 <p>最优判别器 D* 代入到 $C(G)=max_V(G,D) $ 中： </p>
-<p><img src="../image/GAN/68126image (24" alt="68126image (../image/GAN/68126image%20(24).png)">.png)</p>
+<p><img src="/2018/07/24/GAN/image/GAN/68126image (24" alt="68126image (../image/GAN/68126image%20(24).png)">.png)</p>
 <p>可以利用已知最优值为-log4,和JS散度 构造函数：</p>
-<p><img src="../image/GAN/88447image (25" alt="88447image (../image/GAN/88447image%20(25).png)">.png)</p>
-<p>化简后得：<img src="../image/GAN/59249image (26" alt="59249image (../image/GAN/59249image%20(26).png)">.png)</p>
+<p><img src="/2018/07/24/GAN/image/GAN/88447image (25" alt="88447image (../image/GAN/88447image%20(25).png)">.png)</p>
+<p>化简后得：<img src="/2018/07/24/GAN/image/GAN/59249image (26" alt="59249image (../image/GAN/59249image%20(26).png)">.png)</p>
 <p>根据概率密度的定义，$P_G,P_{data}$ 在积分域上的积分为1，可得</p>
-<p><img src="../image/GAN/85412image (27" alt="85412image (../image/GAN/85412image%20(27).png)">.png)</p>
+<p><img src="/2018/07/24/GAN/image/GAN/85412image (27" alt="85412image (../image/GAN/85412image%20(27).png)">.png)</p>
 <p>带入化简后的式子得：</p>
-<p><img src="../image/GAN/48004image (29" alt="48004image (../image/GAN/48004image%20(29).png)">.png)</p>
+<p><img src="/2018/07/24/GAN/image/GAN/48004image (29" alt="48004image (../image/GAN/48004image%20(29).png)">.png)</p>
 <p>根据KL散度的定义：同一个随机变量 x 有两个单独的概率分布 P(x) 和 Q(x)，用KL散度</p>
-<p><img src="../image/GAN/30228image (12" alt="30228image (../image/GAN/30228image%20(12).png)">.png)</p>
+<p><img src="/2018/07/24/GAN/image/GAN/30228image (12" alt="30228image (../image/GAN/30228image%20(12).png)">.png)</p>
 <p>来衡量这两个分布的差异。</p>
-<p>根据KL散度的定义C(G)可以写成：<img src="../image/GAN/68250image (30" alt="68250image (../image/GAN/68250image%20(30).png)">.png)</p>
-<p>根据JS散度的定义：<br>$$<br>JSD(P||Q)=frac{1}{2}D(P||M )+frac{1}{2}D(Q||M )<br>其中，M=frac{1}{2}（P+Q）<br>$$<br>C(G) 可以写成：<img src="../image/GAN/35494image (32" alt="35494image (../image/GAN/35494image%20(32).png)">.png)</p>
+<p>根据KL散度的定义C(G)可以写成：<img src="/2018/07/24/GAN/image/GAN/68250image (30" alt="68250image (../image/GAN/68250image%20(30).png)">.png)</p>
+<p>根据JS散度的定义：<br>$$<br>JSD(P||Q)=frac{1}{2}D(P||M )+frac{1}{2}D(Q||M )<br>其中，M=frac{1}{2}（P+Q）<br>$$<br>C(G) 可以写成：<img src="/2018/07/24/GAN/image/GAN/35494image (32" alt="35494image (../image/GAN/35494image%20(32).png)">.png)</p>
 <p>JS散度在$P_{data}=P_G$ 是为0，因此全局最小的条件是  $P_g(x)=P_{data}(x)$</p>
 <p>综合1、2 可以证明生成分布当且仅当等于真实数据分布式时，我们可以取得最优生成器。</p>
 <p>以下部分多数摘自<a href="https://blog.csdn.net/qq_25737169/article/details/78857724" target="_blank" rel="noopener">https://blog.csdn.net/qq_25737169/article/details/78857724</a></p>
