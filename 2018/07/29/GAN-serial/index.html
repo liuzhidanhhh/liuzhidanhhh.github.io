@@ -95,7 +95,7 @@
 <p>●  GAN存在训练不稳定、梯度消失、模式崩溃、生成样本缺乏多样性等问题。</p>
 <h4 id="第一种原始GAN存在的问题"><a href="#第一种原始GAN存在的问题" class="headerlink" title="第一种原始GAN存在的问题"></a>第一种原始GAN存在的问题</h4><p><strong>梯度消失GAN不稳定问题判别器越好，生成器梯度消失越严重。</strong></p>
 <p>原始GAN中判别器要最小化的损失函数：</p>
-<p><img src="https://www.zhihu.com/equation?tex=-%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%28x%29%29%5D" alt="-\mathbb{E}_{x\sim P_r}[\log D(x)] - \mathbb{E}_{x\sim P_g}[\log(1-D(x))]"> （公式1 ） </p>
+<p><img src="https://www.zhihu.com/equation?tex=-%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%28x%29%29%5D" alt="-\mathbb{E}_{x\sim P_r}[\log D(x)] - \mathbb{E}_{x\sim P_g}[\log(1-D(x))]">（公式1 ） </p>
 <p>在生成器G固定参数时最优的判别器D为：</p>
 <p><img src="https://www.zhihu.com/equation?tex=D%5E%2A%28x%29+%3D+%5Cfrac%7BP_r%28x%29%7D%7BP_r%28x%29+%2B+P_g%28x%29%7D" alt="D^*(x) = \frac{P_r(x)}{P_r(x) + P_g(x)}">（公式4）</p>
 <p>经过推导公式一可变换得到：</p>
@@ -116,9 +116,9 @@
 <h4 id="第二种GAN存在的问题"><a href="#第二种GAN存在的问题" class="headerlink" title="第二种GAN存在的问题"></a>第二种GAN存在的问题</h4><p>第二种GAN把生成器loss改成</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B-+%5Clog+D%28x%29%5D" alt="\mathbb{E}_{x\sim P_g}[- \log D(x)]">（公式3 ）</p>
 <p><strong>最小化第二种生成器loss函数，会等价于最小化一个不合理的距离衡量，导致两个问题，一是梯度不稳定，二是collapse mode即多样性不足。</strong></p>
-<p>上文推导已经得到在最优判别器<img src="https://www.zhihu.com/equation?tex=D%5E%2A" alt="D^*">下</p>
+<p>上文推导已经得到在最优判别器$D^*$下</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%5E%2A%28x%29%5D+%2B+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%5E%2A%28x%29%29%5D+%3D+2JS%28P_r+%7C%7C+P_g%29+-+2%5Clog+2" alt="\mathbb{E}_{x\sim P_r}[\log D^*(x)] + \mathbb{E}_{x\sim P_g}[\log(1-D^*(x))] = 2JS(P_r || P_g) - 2\log 2">（公式9）</p>
-<p>我们可以把KL散度（注意下面是先g后r）变换成含<img src="https://www.zhihu.com/equation?tex=D%5E%2A" alt="D^*">的形式：</p>
+<p>我们可以把KL散度（注意下面是先g后r）变换成含$D^*$的形式：</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Balign%7D%0AKL%28P_g+%7C%7C+P_r%29+%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%7BP_r%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7B1+-+D%5E%2A%28x%29%7D%7BD%5E%2A%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+%5B1+-+D%5E%2A%28x%29%5D+-++%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+D%5E%2A%28x%29%0A%5Cend%7Balign%7D+%5C%5C" alt="\begin{align} KL(P_g || P_r) &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{P_g(x)}{P_r(x)}] \\ &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{P_g(x) / (P_r(x) + P_g(x))}{P_r(x) / (P_r(x) + P_g(x))}] \\ &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{1 - D^*(x)}{D^*(x)}] \\ &amp;= \mathbb{E}_{x \sim P_g} \log [1 - D^*(x)] -  \mathbb{E}_{x \sim P_g} \log D^*(x) \end{align} \\">（公式10）</p>
 <p>由公式3，9，10可得最小化目标的等价变形</p>
 <p>注意上式最后两项不依赖于生成器G，最终得到最小化公式3等价于最小化</p>
@@ -166,11 +166,11 @@
 <p>再用上我们搞深度学习的人最熟悉的那一套，不就可以把<img src="https://www.zhihu.com/equation?tex=f" alt="f">用一个带参数<img src="https://www.zhihu.com/equation?tex=w" alt="w">的神经网络来表示嘛！由于神经网络的拟合能力足够强大，我们有理由相信，这样定义出来的一系列<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">虽然无法囊括所有可能，但是也足以高度近似公式13要求的那个<img src="https://www.zhihu.com/equation?tex=sup_%7B%7C%7Cf%7C%7C_L+%5Cleq+K%7D+" alt="sup_{||f||_L \leq K} ">了。</p>
 <p>最后，还不能忘了满足公式14中<img src="https://www.zhihu.com/equation?tex=%7C%7Cf_w%7C%7C_L+%5Cleq+K" alt="||f_w||_L \leq K">这个限制。我们其实不关心具体的K是多少，只要它不是正无穷就行，因为它只是会使得梯度变大<img src="https://www.zhihu.com/equation?tex=K" alt="K">倍，并不会影响梯度的方向。所以作者采取了一个非常简单的做法，就是限制神经网络<img src="https://www.zhihu.com/equation?tex=f_%5Ctheta" alt="f_\theta">的所有参数<img src="https://www.zhihu.com/equation?tex=w_i" alt="w_i">的不超过某个范围<img src="https://www.zhihu.com/equation?tex=%5B-c%2C+c%5D" alt="[-c, c]">，比如<img src="https://www.zhihu.com/equation?tex=w_i+%5Cin+%5B-+0.01%2C+0.01%5D" alt="w_i \in [- 0.01, 0.01]">，此时关于输入样本<img src="https://www.zhihu.com/equation?tex=x" alt="x">的导数<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cpartial+f_w%7D%7B%5Cpartial+x%7D" alt="\frac{\partial f_w}{\partial x}">也不会超过某个范围，所以一定存在某个不知道的常数<img src="https://www.zhihu.com/equation?tex=K" alt="K">使得<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">的局部变动幅度不会超过它，Lipschitz连续条件得以满足。具体在算法实现中，只需要每次更新完<img src="https://www.zhihu.com/equation?tex=w" alt="w">后把它clip回这个范围就可以了。</p>
 <p><strong>到此为止，我们可以构造一个含参数<img src="https://www.zhihu.com/equation?tex=w" alt="w">、最后一层不是非线性激活层的判别器网络<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">，在限制<img src="https://www.zhihu.com/equation?tex=w" alt="w">不超过某个范围的条件下，使得</strong></p>
-<p><img src="https://www.zhihu.com/equation?tex=L+%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D" alt="L = \mathbb{E}_{x \sim P_r} [f_w(x)] - \mathbb{E}_{x \sim P_g} [f_w(x)]">（公式15）</p>
+<p><img src="https://www.zhihu.com/equation?tex=L+%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D(公式15" alt="L = \mathbb{E}_{x \sim P_r} [f_w(x)] - \mathbb{E}_{x \sim P_g} [f_w(x)]">)</p>
 <p><strong>尽可能取到最大，此时<img src="https://www.zhihu.com/equation?tex=L" alt="L">就会近似真实分布与生成分布之间的Wasserstein距离（忽略常数倍数<img src="https://www.zhihu.com/equation?tex=K" alt="K">）。注意原始GAN的判别器做的是真假二分类任务，所以最后一层是sigmoid，但是现在WGAN中的判别器<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">做的是近似拟合Wasserstein距离，属于回归任务，所以要把最后一层的sigmoid拿掉。</strong></p>
 <p><strong>接下来生成器要近似地最小化Wasserstein距离，可以最小化<img src="https://www.zhihu.com/equation?tex=L" alt="L">，由于Wasserstein距离的优良性质，我们不需要担心生成器梯度消失的问题。再考虑到<img src="https://www.zhihu.com/equation?tex=L" alt="L">的第一项与生成器无关，就得到了WGAN的两个loss。</strong></p>
-<p><img src="https://www.zhihu.com/equation?tex=-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D" alt="- \mathbb{E}_{x \sim P_g} [f_w(x)]">（公式16，WGAN生成器loss函数） </p>
-<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D" alt="\mathbb{E}_{x \sim P_g} [f_w(x)]- \mathbb{E}_{x \sim P_r} [f_w(x)]">（公式17，WGAN判别器loss函数）</p>
+<p><img src="公式16，WGAN生成器loss函数" alt="- \mathbb{E}_{x \sim P_g} [f_w(x)]](https://www.zhihu.com/equation?tex=-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D"> )</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D(公式17，WGAN判别器loss函数" alt="\mathbb{E}_{x \sim P_g} [f_w(x)]- \mathbb{E}_{x \sim P_r} [f_w(x)]">)</p>
 <p><strong>公式15是公式17的反，可以指示训练进程，其数值越小，表示真实分布与生成分布的Wasserstein距离越小，GAN训练得越好。</strong></p>
 <h4 id="WGAN-存在的问题"><a href="#WGAN-存在的问题" class="headerlink" title="WGAN 存在的问题"></a>WGAN 存在的问题</h4><p>1、WGAN 的Lipschitz连续条件将权重w限制在一个K内，可能会导致神经网络的参数收敛到limit 的边界。</p>
 <p>2、若生成网络和判别网络只用简单的2层感知机，信号特征提取不够充分。</p>
@@ -192,7 +192,7 @@
 <h3 id="EEG-GAN"><a href="#EEG-GAN" class="headerlink" title="EEG GAN"></a>EEG GAN</h3><p>将GAN框架应用于人工脑电图信号的生成，提出了EEG-GAN框架，用于脑电图（electroencephalographic，EEG）脑信号的生成。</p>
 <p><strong>特点：</strong> </p>
 <p>1、改进WGAN 的距离函数，以稳定训练</p>
-<p>2、采用了DCGAN 相似架构卷机进行上采样（up-sampling）和下采样（down-sampling） </p>
+<p>2、采用了DCGAN 相似结构卷积进行上采样（up-sampling）和下采样（down-sampling） </p>
 <p>能够有效的提取特征</p>
 <p>3、加入了LSTM 适合做时间序列的数据的生成。</p>
 <p>关于距离函数的改进，加入了惩罚项：<img src="../image/GAN%20serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.35.png" alt="屏幕快照 2018-07-29 23.05.35"></p>
