@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="GAN、WGAN、DCGAN、EEG GAN 系列介绍," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文链接： WGAN 、  DCGAN 、EEG GAN 在上一篇文章中中详细介绍了GAN 公式推导及优缺点。 在这文章里主要介绍WGAN、DCGAN、EEG GAN 的特点，对于GAN的改进。 参考了：令人拍案叫绝的Wasserstein GAN 对于WGAN的介绍非常清晰，强推！ GAN的缺点●  训练GAN需要达到纳什均衡,有时候可以用梯度下降法做到,有时候做不到。我们还没有找到很好的达到纳">
+<meta name="keywords" content="GAN、WGAN、DCGAN、EEG GAN 系列介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAN serial">
+<meta property="og:url" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/index.html">
+<meta property="og:site_name" content="Lzd&#39;s blog">
+<meta property="og:description" content="论文链接： WGAN 、  DCGAN 、EEG GAN 在上一篇文章中中详细介绍了GAN 公式推导及优缺点。 在这文章里主要介绍WGAN、DCGAN、EEG GAN 的特点，对于GAN的改进。 参考了：令人拍案叫绝的Wasserstein GAN 对于WGAN的介绍非常清晰，强推！ GAN的缺点●  训练GAN需要达到纳什均衡,有时候可以用梯度下降法做到,有时候做不到。我们还没有找到很好的达到纳">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%28x%29%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=D%5E%2A%28x%29+%3D+%5Cfrac%7BP_r%28x%29%7D%7BP_r%28x%29+%2B+P_g%28x%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Clog+%5Cfrac%7BP_r%28x%29%7D%7B%5Cfrac%7B1%7D%7B2%7D%5BP_r%28x%29+%2B+P_g%28x%29%5D%7D+%2B+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7B%5Cfrac%7B1%7D%7B2%7D%5BP_r%28x%29+%2B+P_g%28x%29%5D%7D+-+2%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=JS%28P_1+%7C%7C+P_2%29+%3D+%5Cfrac%7B1%7D%7B2%7DKL%28P_1%7C%7C%5Cfrac%7BP_1+%2B+P_2%7D%7B2%7D%29+%2B+%5Cfrac%7B1%7D%7B2%7DKL%28P_2%7C%7C%5Cfrac%7BP_1+%2B+P_2%7D%7B2%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1%28x%29+%3D+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2%28x%29+%3D+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1%28x%29+%5Cneq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2%28x%29+%5Cneq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1%28x%29+%3D+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2%28x%29+%5Cneq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1%28x%29+%5Cneq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2%28x%29+%3D+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+%5Cfrac%7BP_2%7D%7B%5Cfrac%7B1%7D%7B2%7D%28P_2+%2B+0%29%7D+%3D+%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=JS%28P_1%7C%7CP_2%29+%3D+%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g%0A">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B-+%5Clog+D%28x%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%5E%2A%28x%29%5D+%2B+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%5E%2A%28x%29%29%5D+%3D+2JS%28P_r+%7C%7C+P_g%29+-+2%5Clog+2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Balign%7D%0AKL%28P_g+%7C%7C+P_r%29+%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%7BP_r%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7B1+-+D%5E%2A%28x%29%7D%7BD%5E%2A%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+%5B1+-+D%5E%2A%28x%29%5D+-++%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+D%5E%2A%28x%29%0A%5Cend%7Balign%7D+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29+-+2JS%28P_r+%7C%7C+P_g%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_r+%7C%7C+P_g%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g%28x%29%5Crightarrow+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r%28x%29%5Crightarrow+1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g%28x%29+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D+%5Crightarrow+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g%28x%29%5Crightarrow+1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r%28x%29%5Crightarrow+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g%28x%29+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D+%5Crightarrow+%2B%5Cinfty">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2018.11.15.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29+%3D+%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cgamma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28x%2C+y%29+%5Csim+%5Cgamma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=y">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%7C%7Cx-y%7C%7C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cgamma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cgamma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_r">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_g">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-c9cc9f8c879e7fe93d6e3bfafd41bd8a_hd.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=KL%28P_1+%7C%7C+P_2%29+%3D+KL%28P_1+%7C%7C+P_2%29+%3D%0A%5Cbegin%7Bcases%7D%0A%2B%5Cinfty+%26+%5Ctext%7Bif+%24%5Ctheta+%5Cneq+0%24%7D+%5C%5C%0A0+%26+%5Ctext%7Bif+%24%5Ctheta+%3D+0%24%7D%0A%5Cend%7Bcases%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=JS%28P_1%7C%7CP_2%29%3D%0A%5Cbegin%7Bcases%7D%0A%5Clog+2+%26+%5Ctext%7Bif+%24%5Ctheta+%5Cneq+0%24%7D+%5C%5C%0A0+%26+%5Ctext%7Bif+%24%5Ctheta+-+0%24%7D%0A%5Cend%7Bcases%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=W%28P_0%2C+P_1%29+%3D+%7C%5Ctheta%7C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29+%3D+%5Cfrac%7B1%7D%7BK%7D+%5Csup_%7B%7C%7Cf%7C%7C_L+%5Cleq+K%7D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf%28x%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K%5Cgeq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+%28x%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%7C%7Cf%7C%7C_L">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf%28x%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K+%5Ccdot+W%28P_r%2C+P_g%29+%5Capprox+%5Cmax_%7Bw%3A+%7Cf_w%7C_L+%5Cleq+K%7D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=sup_%7B%7C%7Cf%7C%7C_L+%5Cleq+K%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%7C%7Cf_w%7C%7C_L+%5Cleq+K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_%5Ctheta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5B-c%2C+c%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w_i+%5Cin+%5B-+0.01%2C+0.01%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cpartial+f_w%7D%7B%5Cpartial+x%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L+%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D(公式15">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=K">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/公式16，WGAN生成器loss函数">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D(公式17，WGAN判别器loss函数">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/dcgan0.png">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/dcgan1.png">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.35.png">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.10.34.png">
+<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.44.png">
+<meta property="og:updated_time" content="2018-07-31T06:43:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GAN serial">
+<meta name="twitter:description" content="论文链接： WGAN 、  DCGAN 、EEG GAN 在上一篇文章中中详细介绍了GAN 公式推导及优缺点。 在这文章里主要介绍WGAN、DCGAN、EEG GAN 的特点，对于GAN的改进。 参考了：令人拍案叫绝的Wasserstein GAN 对于WGAN的介绍非常清晰，强推！ GAN的缺点●  训练GAN需要达到纳什均衡,有时候可以用梯度下降法做到,有时候做不到。我们还没有找到很好的达到纳">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=-%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%28x%29%29%5D">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/"/>
+
+
+
+
+
+  <title>GAN serial | Lzd's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lzd's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GAN serial</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-29T23:57:15+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文链接： <a href="https://arxiv.org/abs/1701.07875" target="_blank" rel="noopener">WGAN</a> 、  <a href="https://arxiv.org/abs/1511.06434" target="_blank" rel="noopener">DCGAN</a> 、<a href="https://arxiv.org/abs/1806.01875" target="_blank" rel="noopener">EEG GAN</a></p>
+<p>在上一篇文章中中详细介绍了GAN 公式推导及优缺点。</p>
+<p>在这文章里主要介绍WGAN、DCGAN、EEG GAN 的特点，对于GAN的改进。</p>
+<p>参考了：<a href="https://zhuanlan.zhihu.com/p/25071913" target="_blank" rel="noopener">令人拍案叫绝的Wasserstein GAN</a> 对于WGAN的介绍非常清晰，强推！</p>
+<h3 id="GAN的缺点"><a href="#GAN的缺点" class="headerlink" title="GAN的缺点"></a>GAN的缺点</h3><p>●  训练GAN需要达到纳什均衡,有时候可以用梯度下降法做到,有时候做不到。我们还没有找到很好的达到纳什均衡的方法,所以训练GAN相比VAE或者PixelRNN是不稳定的,但在实践中它还是比训练玻尔兹曼机稳定。</p>
+<p>●  GAN不适合处理离散形式的数据，比如文本。</p>
+<p>●  GAN存在训练不稳定、梯度消失、模式崩溃、生成样本缺乏多样性等问题。</p>
+<h4 id="第一种原始GAN存在的问题"><a href="#第一种原始GAN存在的问题" class="headerlink" title="第一种原始GAN存在的问题"></a>第一种原始GAN存在的问题</h4><p><strong>梯度消失GAN不稳定问题判别器越好，生成器梯度消失越严重。</strong></p>
+<p>原始GAN中判别器要最小化的损失函数：</p>
+<p><img src="https://www.zhihu.com/equation?tex=-%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%28x%29%29%5D" alt="-\mathbb{E}_{x\sim P_r}[\log D(x)] - \mathbb{E}_{x\sim P_g}[\log(1-D(x))]">（公式1 ） </p>
+<p>在生成器G固定参数时最优的判别器D为：</p>
+<p><img src="https://www.zhihu.com/equation?tex=D%5E%2A%28x%29+%3D+%5Cfrac%7BP_r%28x%29%7D%7BP_r%28x%29+%2B+P_g%28x%29%7D" alt="D^*(x) = \frac{P_r(x)}{P_r(x) + P_g(x)}">（公式4）</p>
+<p>经过推导公式一可变换得到：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Clog+%5Cfrac%7BP_r%28x%29%7D%7B%5Cfrac%7B1%7D%7B2%7D%5BP_r%28x%29+%2B+P_g%28x%29%5D%7D+%2B+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7B%5Cfrac%7B1%7D%7B2%7D%5BP_r%28x%29+%2B+P_g%28x%29%5D%7D+-+2%5Clog+2" alt="\mathbb{E}_{x \sim P_r} \log \frac{P_r(x)}{\frac{1}{2}[P_r(x) + P_g(x)]} + \mathbb{E}_{x \sim P_g} \log \frac{P_g(x)}{\frac{1}{2}[P_r(x) + P_g(x)]} - 2\log 2">（公式5)</p>
+<p>写成JS散度形式：</p>
+<p><img src="https://www.zhihu.com/equation?tex=JS%28P_1+%7C%7C+P_2%29+%3D+%5Cfrac%7B1%7D%7B2%7DKL%28P_1%7C%7C%5Cfrac%7BP_1+%2B+P_2%7D%7B2%7D%29+%2B+%5Cfrac%7B1%7D%7B2%7DKL%28P_2%7C%7C%5Cfrac%7BP_1+%2B+P_2%7D%7B2%7D%29" alt="JS(P_1 || P_2) = \frac{1}{2}KL(P_1||\frac{P_1 + P_2}{2}) + \frac{1}{2}KL(P_2||\frac{P_1 + P_2}{2})">（公式7）</p>
+<p>具体推导看我的上一篇博客，或者令人拍案叫绝的<a href="https://zhuanlan.zhihu.com/p/25071913" target="_blank" rel="noopener">Wasserstein GAN</a> </p>
+<p>将原始GAN定义为生成器loss等价变换为最小化真实分布<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">与生成分布<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">之间的JS散度。我们越训练判别器，它就越接近最优，最小化生成器的loss也就会越近似于最小化<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">和<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">之间的JS散度。</p>
+<p>我们希望如果两个分布之间越接近它们的JS散度越小，我们通过优化JS散度就能将<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">“拉向”<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">，最终以假乱真。这个希望在两个分布有所重叠的时候是成立的，但是如果两个分布完全没有重叠的部分，或者它们重叠的部分可忽略（下面解释什么叫可忽略），它们的JS散度是是<img src="https://www.zhihu.com/equation?tex=%5Clog+2" alt="\log 2"></p>
+<p>因为对于任意一个x只有四种可能：</p>
+<p><img src="https://www.zhihu.com/equation?tex=P_1%28x%29+%3D+0" alt="P_1(x) = 0">且<img src="https://www.zhihu.com/equation?tex=P_2%28x%29+%3D+0" alt="P_2(x) = 0"></p>
+<p><img src="https://www.zhihu.com/equation?tex=P_1%28x%29+%5Cneq+0" alt="P_1(x) \neq 0">且<img src="https://www.zhihu.com/equation?tex=P_2%28x%29+%5Cneq+0" alt="P_2(x) \neq 0"></p>
+<p><img src="https://www.zhihu.com/equation?tex=P_1%28x%29+%3D+0" alt="P_1(x) = 0">且<img src="https://www.zhihu.com/equation?tex=P_2%28x%29+%5Cneq+0" alt="P_2(x) \neq 0"></p>
+<p><img src="https://www.zhihu.com/equation?tex=P_1%28x%29+%5Cneq+0" alt="P_1(x) \neq 0">且<img src="https://www.zhihu.com/equation?tex=P_2%28x%29+%3D+0" alt="P_2(x) = 0"></p>
+<p>第一种对计算JS散度无贡献，第二种情况由于重叠部分可忽略所以贡献也为0，第三种情况对公式7右边第一个项的贡献是<img src="https://www.zhihu.com/equation?tex=%5Clog+%5Cfrac%7BP_2%7D%7B%5Cfrac%7B1%7D%7B2%7D%28P_2+%2B+0%29%7D+%3D+%5Clog+2" alt="\log \frac{P_2}{\frac{1}{2}(P_2 + 0)} = \log 2">，第四种情况与之类似，所以最终<img src="https://www.zhihu.com/equation?tex=JS%28P_1%7C%7CP_2%29+%3D+%5Clog+2" alt="JS(P_1||P_2) = \log 2">。</p>
+<p>换句话说，无论<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">跟<img src="https://www.zhihu.com/equation?tex=P_g%0A" alt="P_g ">是远在天边，还是近在眼前，只要它们俩没有一点重叠或者重叠部分可忽略，JS散度就固定是常数<img src="https://www.zhihu.com/equation?tex=%5Clog+2" alt="\log 2">，<strong>而这对于梯度下降方法意味着——梯度为0</strong>！此时对于最优判别器来说，生成器肯定是得不到一丁点梯度信息的；即使对于接近最优的判别器来说，生成器也有很大机会面临梯度消失的问题。但是<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">与<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">不重叠或重叠部分可忽略的可能性非常大。具体证明看链接。</p>
+<p>判别器训练得太好，生成器梯度消失，生成器loss降不下去；判别器训练得不好，生成器梯度不准，四处乱跑。只有判别器训练得不好不坏才行，但是这个火候又很难把握，甚至在同一轮训练的前后不同阶段这个火候都可能不一样，所以GAN才那么难训练。</p>
+<h4 id="第二种GAN存在的问题"><a href="#第二种GAN存在的问题" class="headerlink" title="第二种GAN存在的问题"></a>第二种GAN存在的问题</h4><p>第二种GAN把生成器loss改成</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B-+%5Clog+D%28x%29%5D" alt="\mathbb{E}_{x\sim P_g}[- \log D(x)]">（公式3 ）</p>
+<p><strong>最小化第二种生成器loss函数，会等价于最小化一个不合理的距离衡量，导致两个问题，一是梯度不稳定，二是collapse mode即多样性不足。</strong></p>
+<p>上文推导已经得到在最优判别器$D^*$下</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx%5Csim+P_r%7D%5B%5Clog+D%5E%2A%28x%29%5D+%2B+%5Cmathbb%7BE%7D_%7Bx%5Csim+P_g%7D%5B%5Clog%281-D%5E%2A%28x%29%29%5D+%3D+2JS%28P_r+%7C%7C+P_g%29+-+2%5Clog+2" alt="\mathbb{E}_{x\sim P_r}[\log D^*(x)] + \mathbb{E}_{x\sim P_g}[\log(1-D^*(x))] = 2JS(P_r || P_g) - 2\log 2">（公式9）</p>
+<p>我们可以把KL散度（注意下面是先g后r）变换成含$D^*$的形式：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Balign%7D%0AKL%28P_g+%7C%7C+P_r%29+%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7BP_g%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%7BP_r%28x%29+%2F+%28P_r%28x%29+%2B+P_g%28x%29%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5B%5Clog+%5Cfrac%7B1+-+D%5E%2A%28x%29%7D%7BD%5E%2A%28x%29%7D%5D+%5C%5C%0A%26%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+%5B1+-+D%5E%2A%28x%29%5D+-++%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Clog+D%5E%2A%28x%29%0A%5Cend%7Balign%7D+%5C%5C" alt="\begin{align} KL(P_g || P_r) &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{P_g(x)}{P_r(x)}] \\ &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{P_g(x) / (P_r(x) + P_g(x))}{P_r(x) / (P_r(x) + P_g(x))}] \\ &amp;= \mathbb{E}_{x \sim P_g} [\log \frac{1 - D^*(x)}{D^*(x)}] \\ &amp;= \mathbb{E}_{x \sim P_g} \log [1 - D^*(x)] -  \mathbb{E}_{x \sim P_g} \log D^*(x) \end{align} \\">（公式10）</p>
+<p>由公式3，9，10可得最小化目标的等价变形</p>
+<p>注意上式最后两项不依赖于生成器G，最终得到最小化公式3等价于最小化</p>
+<p><img src="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29+-+2JS%28P_r+%7C%7C+P_g%29" alt="KL(P_g || P_r) - 2JS(P_r || P_g)">（公式11）</p>
+<p>这个等价最小化目标存在两个严重的问题。第一是它同时要最小化生成分布与真实分布的KL散度，却又要最大化两者的JS散度，一个要拉近，一个却要推远！这在直观上非常荒谬，在数值上则会导致梯度不稳定，这是后面那个JS散度项的毛病。</p>
+<p>第二，即便是前面那个正常的KL散度项也有毛病。因为KL散度不是一个对称的衡量，<img src="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29" alt="KL(P_g || P_r)">与<img src="https://www.zhihu.com/equation?tex=KL%28P_r+%7C%7C+P_g%29" alt="KL(P_r || P_g)">是有差别的。以前者为例</p>
+<ul>
+<li>当<img src="https://www.zhihu.com/equation?tex=P_g%28x%29%5Crightarrow+0" alt="P_g(x)\rightarrow 0">而<img src="https://www.zhihu.com/equation?tex=P_r%28x%29%5Crightarrow+1" alt="P_r(x)\rightarrow 1">时，<img src="https://www.zhihu.com/equation?tex=P_g%28x%29+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D+%5Crightarrow+0" alt="P_g(x) \log \frac{P_g(x)}{P_r(x)} \rightarrow 0">，对<img src="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29" alt="KL(P_g || P_r)">贡献趋近0</li>
+<li>当<img src="https://www.zhihu.com/equation?tex=P_g%28x%29%5Crightarrow+1" alt="P_g(x)\rightarrow 1">而<img src="https://www.zhihu.com/equation?tex=P_r%28x%29%5Crightarrow+0" alt="P_r(x)\rightarrow 0">时，<img src="https://www.zhihu.com/equation?tex=P_g%28x%29+%5Clog+%5Cfrac%7BP_g%28x%29%7D%7BP_r%28x%29%7D+%5Crightarrow+%2B%5Cinfty" alt="P_g(x) \log \frac{P_g(x)}{P_r(x)} \rightarrow +\infty">，对<img src="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29" alt="KL(P_g || P_r)">贡献趋近正无穷</li>
+</ul>
+<p>换言之，<img src="https://www.zhihu.com/equation?tex=KL%28P_g+%7C%7C+P_r%29" alt="KL(P_g || P_r)">对于上面两种错误的惩罚是不一样的，第一种错误对应的是“生成器没能生成真实的样本”，惩罚微小；第二种错误对应的是“生成器生成了不真实的样本” ，惩罚巨大。第一种错误对应的是缺乏多样性，第二种错误对应的是缺乏准确性。<strong>这一放一打之下，生成器宁可多生成一些重复但是很“安全”的样本，也不愿意去生成多样性的样本，因为那样一不小心就会产生第二种错误，得不偿失。这种现象就是大家常说的collapse mode。</strong></p>
+<h3 id="WGAN"><a href="#WGAN" class="headerlink" title="WGAN"></a>WGAN</h3><p>论文<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1701.04862" target="_blank" rel="noopener">Towards Principled Methods for Training Generative Adversarial Networks</a> 从理论上分析了原始GAN的问题所在，并提出改进</p>
+<p>论文<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1701.07875" target="_blank" rel="noopener">Wasserstein GAN</a> 给出了GAN 的改进算法WGAN。</p>
+<h4 id="WGAN的优点"><a href="#WGAN的优点" class="headerlink" title="WGAN的优点"></a><strong>WGAN的优点</strong></h4><ul>
+<li>彻底解决GAN训练不稳定的问题，不再需要小心平衡生成器和判别器的训练程度</li>
+<li>基本解决了collapse mode的问题，确保了生成样本的多样性 </li>
+<li>训练过程中终于有一个像交叉熵、准确率这样的数值来指示训练的进程，这个数值越小代表GAN训练得越好，代表生成器产生的图像质量越高（如题图所示）</li>
+<li>以上一切好处不需要精心设计的网络架构，最简单的多层全连接网络就可以做到</li>
+</ul>
+<h4 id="WGAN算法流程中对GAN的改进"><a href="#WGAN算法流程中对GAN的改进" class="headerlink" title="WGAN算法流程中对GAN的改进"></a><strong>WGAN算法流程中对GAN的改进</strong></h4><ul>
+<li>判别器最后一层去掉sigmoid</li>
+<li>生成器和判别器的loss不取log</li>
+<li>每次更新判别器的参数之后把它们的绝对值截断到不超过一个固定常数c</li>
+<li>不要用基于动量的优化算法（包括momentum和Adam），推荐RMSProp，SGD也行</li>
+</ul>
+<h4 id="WGAN算法"><a href="#WGAN算法" class="headerlink" title="WGAN算法"></a><strong>WGAN算法</strong></h4><p><img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2018.11.15.png" alt="屏幕快照 2018-07-29 18.11.15"></p>
+<h4 id="Wasserstein距离的优越性质"><a href="#Wasserstein距离的优越性质" class="headerlink" title="Wasserstein距离的优越性质"></a>Wasserstein距离的优越性质</h4><p>Wasserstein距离又叫Earth-Mover（EM）距离，定义如下：</p>
+<p><img src="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29+%3D+%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="W(P_r, P_g) = \inf_{\gamma \sim \Pi (P_r, P_g)} \mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">（公式12）</p>
+<p>解释如下：<img src="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29" alt="\Pi (P_r, P_g)">是<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">和<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">组合起来的所有可能的联合分布的集合，反过来说，<img src="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29" alt="\Pi (P_r, P_g)">中每一个分布的边缘分布都是<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">和<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">。对于每一个可能的联合分布<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="\gamma">而言，可以从中采样<img src="https://www.zhihu.com/equation?tex=%28x%2C+y%29+%5Csim+%5Cgamma" alt="(x, y) \sim \gamma">得到一个真实样本<img src="https://www.zhihu.com/equation?tex=x" alt="x">和一个生成样本<img src="https://www.zhihu.com/equation?tex=y" alt="y">，并算出这对样本的距离<img src="https://www.zhihu.com/equation?tex=%7C%7Cx-y%7C%7C" alt="||x-y||">，所以可以计算该联合分布<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="\gamma">下样本对距离的期望值<img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="\mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">。在所有可能的联合分布中能够对这个期望值取到的下界<img src="https://www.zhihu.com/equation?tex=%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="\inf_{\gamma \sim \Pi (P_r, P_g)} \mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">，就定义为Wasserstein距离。</p>
+<p>直观上可以把<img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="\mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">理解为在<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="\gamma">这个“路径规划”下把<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">这堆“沙土”挪到<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">“位置”所需的“消耗”，而<img src="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29" alt="W(P_r, P_g)">就是“最优路径规划”下的“最小消耗”，所以才叫Earth-Mover（推土机）距离。</p>
+<p><strong>Wasserstein距离相比KL散度、JS散度的优越性在于，即便两个分布没有重叠，Wasserstein距离仍然能够反映它们的远近。</strong>WGAN本作通过简单的例子展示了这一点。考虑如下二维空间中的两个分布<img src="https://www.zhihu.com/equation?tex=P_1" alt="P_1">和<img src="https://www.zhihu.com/equation?tex=P_2" alt="P_2">，<img src="https://www.zhihu.com/equation?tex=P_1" alt="P_1">在线段AB上均匀分布，<img src="https://www.zhihu.com/equation?tex=P_2" alt="P_2">在线段CD上均匀分布，通过控制参数<img src="https://www.zhihu.com/equation?tex=%5Ctheta" alt="\theta">可以控制着两个分布的距离远近。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-c9cc9f8c879e7fe93d6e3bfafd41bd8a_hd.jpg" alt="img"></p>
+<p>此时容易得到（读者可自行验证）</p>
+<p><img src="https://www.zhihu.com/equation?tex=KL%28P_1+%7C%7C+P_2%29+%3D+KL%28P_1+%7C%7C+P_2%29+%3D%0A%5Cbegin%7Bcases%7D%0A%2B%5Cinfty+%26+%5Ctext%7Bif+%24%5Ctheta+%5Cneq+0%24%7D+%5C%5C%0A0+%26+%5Ctext%7Bif+%24%5Ctheta+%3D+0%24%7D%0A%5Cend%7Bcases%7D" alt="KL(P_1 || P_2) = KL(P_1 || P_2) = \begin{cases} +\infty &amp; \text{if $\theta \neq 0$} \\ 0 &amp; \text{if $\theta = 0$} \end{cases}">（突变）</p>
+<p><img src="https://www.zhihu.com/equation?tex=JS%28P_1%7C%7CP_2%29%3D%0A%5Cbegin%7Bcases%7D%0A%5Clog+2+%26+%5Ctext%7Bif+%24%5Ctheta+%5Cneq+0%24%7D+%5C%5C%0A0+%26+%5Ctext%7Bif+%24%5Ctheta+-+0%24%7D%0A%5Cend%7Bcases%7D" alt="JS(P_1||P_2)= \begin{cases} \log 2 &amp; \text{if $\theta \neq 0$} \\ 0 &amp; \text{if $\theta - 0$} \end{cases}">（突变）</p>
+<p><img src="https://www.zhihu.com/equation?tex=W%28P_0%2C+P_1%29+%3D+%7C%5Ctheta%7C" alt="W(P_0, P_1) = |\theta|">（平滑）</p>
+<p>KL散度和JS散度是突变的，要么最大要么最小，<strong>Wasserstein距离却是平滑的</strong>，如果我们要用梯度下降法优化<img src="https://www.zhihu.com/equation?tex=%5Ctheta" alt="\theta">这个参数，前两者根本提供不了梯度，Wasserstein距离却可以。类似地，在高维空间中如果两个分布不重叠或者重叠部分可忽略，则KL和JS既反映不了远近，也提供不了梯度，<strong>但是Wasserstein却可以提供有意义的梯度</strong>。</p>
+<p>由于Wasserstein距离定义（公式12）中的<img src="https://www.zhihu.com/equation?tex=%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D" alt="\inf_{\gamma \sim \Pi (P_r, P_g)}">没法直接求解，不过没关系，作者用了一个已有的定理把它变换为如下形式</p>
+<p><img src="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29+%3D+%5Cfrac%7B1%7D%7BK%7D+%5Csup_%7B%7C%7Cf%7C%7C_L+%5Cleq+K%7D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf%28x%29%5D" alt="W(P_r, P_g) = \frac{1}{K} \sup_{||f||_L \leq K} \mathbb{E}_{x \sim P_r} [f(x)] - \mathbb{E}_{x \sim P_g} [f(x)]">（公式13）</p>
+<p>首先需要介绍一个概念——Lipschitz连续。它其实就是在一个连续函数<img src="https://www.zhihu.com/equation?tex=f" alt="f">上面额外施加了一个限制，要求存在一个常数<img src="https://www.zhihu.com/equation?tex=K%5Cgeq+0" alt="K\geq 0">使得定义域内的任意两个元素<img src="https://www.zhihu.com/equation?tex=x_1" alt="x_1">和<img src="https://www.zhihu.com/equation?tex=x_2" alt="x_2">都满足</p>
+<p>此时称函数<img src="https://www.zhihu.com/equation?tex=f" alt="f">的Lipschitz常数为<img src="https://www.zhihu.com/equation?tex=K" alt="K">。</p>
+<p>简单理解，比如说<img src="https://www.zhihu.com/equation?tex=f" alt="f">的定义域是实数集合，那上面的要求就等价于<img src="https://www.zhihu.com/equation?tex=f" alt="f">的导函数绝对值不超过<img src="https://www.zhihu.com/equation?tex=K" alt="K">。再比如说<img src="https://www.zhihu.com/equation?tex=%5Clog+%28x%29" alt="\log (x)">就不是Lipschitz连续，因为它的导函数没有上界。Lipschitz连续条件限制了一个连续函数的最大局部变动幅度。</p>
+<p>公式13的意思就是在要求函数<img src="https://www.zhihu.com/equation?tex=f" alt="f">的Lipschitz常数<img src="https://www.zhihu.com/equation?tex=%7C%7Cf%7C%7C_L" alt="||f||_L">不超过<img src="https://www.zhihu.com/equation?tex=K" alt="K">的条件下，对所有可能满足条件的<img src="https://www.zhihu.com/equation?tex=f" alt="f">取到<img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf%28x%29%5D" alt="\mathbb{E}_{x \sim P_r} [f(x)] - \mathbb{E}_{x \sim P_g} [f(x)]">的上界，然后再除以<img src="https://www.zhihu.com/equation?tex=K" alt="K">。特别地，我们可以用一组参数<img src="https://www.zhihu.com/equation?tex=w" alt="w">来定义一系列可能的函数<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">，此时求解公式13可以近似变成求解如下形式</p>
+<p><img src="https://www.zhihu.com/equation?tex=K+%5Ccdot+W%28P_r%2C+P_g%29+%5Capprox+%5Cmax_%7Bw%3A+%7Cf_w%7C_L+%5Cleq+K%7D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D" alt="K \cdot W(P_r, P_g) \approx \max_{w: |f_w|_L \leq K} \mathbb{E}_{x \sim P_r} [f_w(x)] - \mathbb{E}_{x \sim P_g} [f_w(x)]">（公式14）</p>
+<p>再用上我们搞深度学习的人最熟悉的那一套，不就可以把<img src="https://www.zhihu.com/equation?tex=f" alt="f">用一个带参数<img src="https://www.zhihu.com/equation?tex=w" alt="w">的神经网络来表示嘛！由于神经网络的拟合能力足够强大，我们有理由相信，这样定义出来的一系列<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">虽然无法囊括所有可能，但是也足以高度近似公式13要求的那个<img src="https://www.zhihu.com/equation?tex=sup_%7B%7C%7Cf%7C%7C_L+%5Cleq+K%7D+" alt="sup_{||f||_L \leq K} ">了。</p>
+<p>最后，还不能忘了满足公式14中<img src="https://www.zhihu.com/equation?tex=%7C%7Cf_w%7C%7C_L+%5Cleq+K" alt="||f_w||_L \leq K">这个限制。我们其实不关心具体的K是多少，只要它不是正无穷就行，因为它只是会使得梯度变大<img src="https://www.zhihu.com/equation?tex=K" alt="K">倍，并不会影响梯度的方向。所以作者采取了一个非常简单的做法，就是限制神经网络<img src="https://www.zhihu.com/equation?tex=f_%5Ctheta" alt="f_\theta">的所有参数<img src="https://www.zhihu.com/equation?tex=w_i" alt="w_i">的不超过某个范围<img src="https://www.zhihu.com/equation?tex=%5B-c%2C+c%5D" alt="[-c, c]">，比如<img src="https://www.zhihu.com/equation?tex=w_i+%5Cin+%5B-+0.01%2C+0.01%5D" alt="w_i \in [- 0.01, 0.01]">，此时关于输入样本<img src="https://www.zhihu.com/equation?tex=x" alt="x">的导数<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cpartial+f_w%7D%7B%5Cpartial+x%7D" alt="\frac{\partial f_w}{\partial x}">也不会超过某个范围，所以一定存在某个不知道的常数<img src="https://www.zhihu.com/equation?tex=K" alt="K">使得<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">的局部变动幅度不会超过它，Lipschitz连续条件得以满足。具体在算法实现中，只需要每次更新完<img src="https://www.zhihu.com/equation?tex=w" alt="w">后把它clip回这个范围就可以了。</p>
+<p><strong>到此为止，我们可以构造一个含参数<img src="https://www.zhihu.com/equation?tex=w" alt="w">、最后一层不是非线性激活层的判别器网络<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">，在限制<img src="https://www.zhihu.com/equation?tex=w" alt="w">不超过某个范围的条件下，使得</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=L+%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D(公式15" alt="L = \mathbb{E}_{x \sim P_r} [f_w(x)] - \mathbb{E}_{x \sim P_g} [f_w(x)]">)</p>
+<p><strong>尽可能取到最大，此时<img src="https://www.zhihu.com/equation?tex=L" alt="L">就会近似真实分布与生成分布之间的Wasserstein距离（忽略常数倍数<img src="https://www.zhihu.com/equation?tex=K" alt="K">）。注意原始GAN的判别器做的是真假二分类任务，所以最后一层是sigmoid，但是现在WGAN中的判别器<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">做的是近似拟合Wasserstein距离，属于回归任务，所以要把最后一层的sigmoid拿掉。</strong></p>
+<p><strong>接下来生成器要近似地最小化Wasserstein距离，可以最小化<img src="https://www.zhihu.com/equation?tex=L" alt="L">，由于Wasserstein距离的优良性质，我们不需要担心生成器梯度消失的问题。再考虑到<img src="https://www.zhihu.com/equation?tex=L" alt="L">的第一项与生成器无关，就得到了WGAN的两个loss。</strong></p>
+<p><img src="/2018/07/29/GAN-serial/公式16，WGAN生成器loss函数" alt="- \mathbb{E}_{x \sim P_g} [f_w(x)]](https://www.zhihu.com/equation?tex=-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D"> )</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D(公式17，WGAN判别器loss函数" alt="\mathbb{E}_{x \sim P_g} [f_w(x)]- \mathbb{E}_{x \sim P_r} [f_w(x)]">)</p>
+<p><strong>公式15是公式17的反，可以指示训练进程，其数值越小，表示真实分布与生成分布的Wasserstein距离越小，GAN训练得越好。</strong></p>
+<h4 id="WGAN-存在的问题"><a href="#WGAN-存在的问题" class="headerlink" title="WGAN 存在的问题"></a>WGAN 存在的问题</h4><p>1、WGAN 的Lipschitz连续条件将权重w限制在一个K内，可能会导致神经网络的参数收敛到limit 的边界。</p>
+<p>2、若生成网络和判别网络只用简单的2层感知机，信号特征提取不够充分。</p>
+<h3 id="DCGAN"><a href="#DCGAN" class="headerlink" title="DCGAN"></a>DCGAN</h3><p><strong>DCGAN优点</strong></p>
+<p>◆  为GAN的训练提供了一个很好的网络拓扑结构。</p>
+<p>◆  表明生成的特征具有向量的计算特性。</p>
+<p><strong>DCGAN能改进GAN训练稳定的原因主要有：</strong></p>
+<p>◆  使用步长卷积代替上采样层，卷积在提取图像特征上具有很好的作用，并且使用卷积代替全连接层。</p>
+<p>◆  生成器G和判别器D中几乎每一层都使用batchnorm层，将特征层的输出归一化到一起，加速了训练，提升了训练的稳定性。（生成器的最后一层和判别器的第一层不加batchnorm）</p>
+<p>◆  在判别器中使用leakrelu激活函数，而不是RELU，防止梯度稀疏，生成器中仍然采用relu，但是输出层采用tanh</p>
+<p>◆  使用adam优化器训练，并且学习率最好是0.0002，（我也试过其他学习率，不得不说0.0002是表现最好的了）</p>
+<p><strong>DCGAN生成网络结构：</strong></p>
+<p><img src="/2018/07/29/GAN-serial/dcgan0.png" alt="dcgan0"></p>
+<p>DCGAN的生成器网络结构如上图所示，相较原始的GAN，DCGAN几乎完全使用了卷积层代替全链接层，判别器几乎是和生成器对称的，从上图中我们可以看到，整个网络没有pooling层和上采样层的存在，实际上是使用了带步长（fractional-strided）的卷积代替了上采样，以增加训练的稳定性。</p>
+<p><strong>DCGAN的向量的计算特性</strong></p>
+<p><img src="/2018/07/29/GAN-serial/dcgan1.png" alt="dcgan1"></p>
+<p><strong>DCGAN 存在的问题</strong></p>
+<p>GAN训练稳定性来说是治标不治本，没有从根本上解决问题，而且训练的时候仍需要小心的平衡G,D的训练进程，往往是训练一个多次，训练另一个一次。</p>
+<h3 id="EEG-GAN"><a href="#EEG-GAN" class="headerlink" title="EEG GAN"></a>EEG GAN</h3><p>将GAN框架应用于人工脑电图信号的生成，提出了EEG-GAN框架，用于脑电图（electroencephalographic，EEG）脑信号的生成。</p>
+<p><strong>特点：</strong> </p>
+<p>1、改进WGAN 的距离函数，以稳定训练</p>
+<p>2、采用了DCGAN 相似结构卷积进行上采样（up-sampling）和下采样（down-sampling） </p>
+<p>能够有效的提取特征</p>
+<p>3、加入了LSTM 适合做时间序列的数据的生成。</p>
+<p>关于距离函数的改进，加入了惩罚项：<img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.35.png" alt="屏幕快照 2018-07-29 23.05.35"></p>
+<p>其中，$\lambda$  不是随着Wasserstein距离的不同而做相应的变化，距离大 $\lambda$ 大，反正 $\lambda$ 小。具体原因见论文。</p>
+<p>Loss 函数：<img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.10.34.png" alt="屏幕快照 2018-07-29 23.10.34"></p>
+<p>该loss 的优点：当分布的距离较小时，仍然存在稳定的梯度。</p>
+<p><strong>信号生成效果</strong></p>
+<p><img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.44.png" alt="屏幕快照 2018-07-29 23.05.44"></p>
+<p><strong>缺点</strong></p>
+<p>今年刚出的论文，缺点还没有明显暴露；</p>
+<p>没有源码，没有办法做快速验证。</p>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/25071913" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25071913</a></p>
+<p><a href="https://blog.csdn.net/qq_25737169/article/details/78857788" target="_blank" rel="noopener">https://blog.csdn.net/qq_25737169/article/details/78857788</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GAN、WGAN、DCGAN、EEG-GAN-系列介绍/" rel="tag"># GAN、WGAN、DCGAN、EEG GAN 系列介绍</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/24/GAN/" rel="next" title="GAN（Generative Adversarial Networks）">
+                <i class="fa fa-chevron-left"></i> GAN（Generative Adversarial Networks）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">lzd</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN的缺点"><span class="nav-number">1.</span> <span class="nav-text">GAN的缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种原始GAN存在的问题"><span class="nav-number">1.1.</span> <span class="nav-text">第一种原始GAN存在的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种GAN存在的问题"><span class="nav-number">1.2.</span> <span class="nav-text">第二种GAN存在的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WGAN"><span class="nav-number">2.</span> <span class="nav-text">WGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WGAN的优点"><span class="nav-number">2.1.</span> <span class="nav-text">WGAN的优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WGAN算法流程中对GAN的改进"><span class="nav-number">2.2.</span> <span class="nav-text">WGAN算法流程中对GAN的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WGAN算法"><span class="nav-number">2.3.</span> <span class="nav-text">WGAN算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wasserstein距离的优越性质"><span class="nav-number">2.4.</span> <span class="nav-text">Wasserstein距离的优越性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WGAN-存在的问题"><span class="nav-number">2.5.</span> <span class="nav-text">WGAN 存在的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DCGAN"><span class="nav-number">3.</span> <span class="nav-text">DCGAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EEG-GAN"><span class="nav-number">4.</span> <span class="nav-text">EEG GAN</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lzd</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
