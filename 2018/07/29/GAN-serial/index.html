@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
     <meta name="keywords" content="hexo, autumn">
     <title>
@@ -35,11 +35,11 @@
                 }
             })
         })
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
     <body style="background: url(http://osly086qe.bkt.clouddn.com/button-bg.png) #f3f3f3">
-        <div class="container">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
             <header class="header">
     <h1 class="title">
         <a href="/" class="logo">
@@ -144,7 +144,7 @@
 <li>每次更新判别器的参数之后把它们的绝对值截断到不超过一个固定常数c</li>
 <li>不要用基于动量的优化算法（包括momentum和Adam），推荐RMSProp，SGD也行</li>
 </ul>
-<h4 id="WGAN算法"><a href="#WGAN算法" class="headerlink" title="WGAN算法"></a><strong>WGAN算法</strong></h4><p><img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2018.11.15.png" alt="屏幕快照 2018-07-29 18.11.15"></p>
+<h4 id="WGAN算法"><a href="#WGAN算法" class="headerlink" title="WGAN算法"></a><strong>WGAN算法</strong></h4><p><img src="GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2018.11.15.png" alt="屏幕快照 2018-07-29 18.11.15"></p>
 <h4 id="Wasserstein距离的优越性质"><a href="#Wasserstein距离的优越性质" class="headerlink" title="Wasserstein距离的优越性质"></a>Wasserstein距离的优越性质</h4><p>Wasserstein距离又叫Earth-Mover（EM）距离，定义如下：</p>
 <p><img src="https://www.zhihu.com/equation?tex=W%28P_r%2C+P_g%29+%3D+%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="W(P_r, P_g) = \inf_{\gamma \sim \Pi (P_r, P_g)} \mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">（公式12）</p>
 <p>解释如下：<img src="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29" alt="\Pi (P_r, P_g)">是<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">和<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">组合起来的所有可能的联合分布的集合，反过来说，<img src="https://www.zhihu.com/equation?tex=%5CPi+%28P_r%2C+P_g%29" alt="\Pi (P_r, P_g)">中每一个分布的边缘分布都是<img src="https://www.zhihu.com/equation?tex=P_r" alt="P_r">和<img src="https://www.zhihu.com/equation?tex=P_g" alt="P_g">。对于每一个可能的联合分布<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="\gamma">而言，可以从中采样<img src="https://www.zhihu.com/equation?tex=%28x%2C+y%29+%5Csim+%5Cgamma" alt="(x, y) \sim \gamma">得到一个真实样本<img src="https://www.zhihu.com/equation?tex=x" alt="x">和一个生成样本<img src="https://www.zhihu.com/equation?tex=y" alt="y">，并算出这对样本的距离<img src="https://www.zhihu.com/equation?tex=%7C%7Cx-y%7C%7C" alt="||x-y||">，所以可以计算该联合分布<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="\gamma">下样本对距离的期望值<img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="\mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">。在所有可能的联合分布中能够对这个期望值取到的下界<img src="https://www.zhihu.com/equation?tex=%5Cinf_%7B%5Cgamma+%5Csim+%5CPi+%28P_r%2C+P_g%29%7D+%5Cmathbb%7BE%7D_%7B%28x%2C+y%29+%5Csim+%5Cgamma%7D+%5B%7C%7Cx+-+y%7C%7C%5D" alt="\inf_{\gamma \sim \Pi (P_r, P_g)} \mathbb{E}_{(x, y) \sim \gamma} [||x - y||]">，就定义为Wasserstein距离。</p>
@@ -169,7 +169,7 @@
 <p><img src="https://www.zhihu.com/equation?tex=L+%3D+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D+-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D(公式15" alt="L = \mathbb{E}_{x \sim P_r} [f_w(x)] - \mathbb{E}_{x \sim P_g} [f_w(x)]">)</p>
 <p><strong>尽可能取到最大，此时<img src="https://www.zhihu.com/equation?tex=L" alt="L">就会近似真实分布与生成分布之间的Wasserstein距离（忽略常数倍数<img src="https://www.zhihu.com/equation?tex=K" alt="K">）。注意原始GAN的判别器做的是真假二分类任务，所以最后一层是sigmoid，但是现在WGAN中的判别器<img src="https://www.zhihu.com/equation?tex=f_w" alt="f_w">做的是近似拟合Wasserstein距离，属于回归任务，所以要把最后一层的sigmoid拿掉。</strong></p>
 <p><strong>接下来生成器要近似地最小化Wasserstein距离，可以最小化<img src="https://www.zhihu.com/equation?tex=L" alt="L">，由于Wasserstein距离的优良性质，我们不需要担心生成器梯度消失的问题。再考虑到<img src="https://www.zhihu.com/equation?tex=L" alt="L">的第一项与生成器无关，就得到了WGAN的两个loss。</strong></p>
-<p><img src="/2018/07/29/GAN-serial/公式16，WGAN生成器loss函数" alt="- \mathbb{E}_{x \sim P_g} [f_w(x)]](https://www.zhihu.com/equation?tex=-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D"> )</p>
+<p><img src="公式16，WGAN生成器loss函数" alt="- \mathbb{E}_{x \sim P_g} [f_w(x)]](https://www.zhihu.com/equation?tex=-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D"> )</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_g%7D+%5Bf_w%28x%29%5D-+%5Cmathbb%7BE%7D_%7Bx+%5Csim+P_r%7D+%5Bf_w%28x%29%5D(公式17，WGAN判别器loss函数" alt="\mathbb{E}_{x \sim P_g} [f_w(x)]- \mathbb{E}_{x \sim P_r} [f_w(x)]">)</p>
 <p><strong>公式15是公式17的反，可以指示训练进程，其数值越小，表示真实分布与生成分布的Wasserstein距离越小，GAN训练得越好。</strong></p>
 <h4 id="WGAN-存在的问题"><a href="#WGAN-存在的问题" class="headerlink" title="WGAN 存在的问题"></a>WGAN 存在的问题</h4><p>1、WGAN 的Lipschitz连续条件将权重w限制在一个K内，可能会导致神经网络的参数收敛到limit 的边界。</p>
@@ -183,10 +183,10 @@
 <p>◆  在判别器中使用leakrelu激活函数，而不是RELU，防止梯度稀疏，生成器中仍然采用relu，但是输出层采用tanh</p>
 <p>◆  使用adam优化器训练，并且学习率最好是0.0002，（我也试过其他学习率，不得不说0.0002是表现最好的了）</p>
 <p><strong>DCGAN生成网络结构：</strong></p>
-<p><img src="/2018/07/29/GAN-serial/dcgan0.png" alt="dcgan0"></p>
+<p><img src="GAN-serial/dcgan0.png" alt="dcgan0"></p>
 <p>DCGAN的生成器网络结构如上图所示，相较原始的GAN，DCGAN几乎完全使用了卷积层代替全链接层，判别器几乎是和生成器对称的，从上图中我们可以看到，整个网络没有pooling层和上采样层的存在，实际上是使用了带步长（fractional-strided）的卷积代替了上采样，以增加训练的稳定性。</p>
 <p><strong>DCGAN的向量的计算特性</strong></p>
-<p><img src="/2018/07/29/GAN-serial/dcgan1.png" alt="dcgan1"></p>
+<p><img src="GAN-serial/dcgan1.png" alt="dcgan1"></p>
 <p><strong>DCGAN 存在的问题</strong></p>
 <p>GAN训练稳定性来说是治标不治本，没有从根本上解决问题，而且训练的时候仍需要小心的平衡G,D的训练进程，往往是训练一个多次，训练另一个一次。</p>
 <h3 id="EEG-GAN"><a href="#EEG-GAN" class="headerlink" title="EEG GAN"></a>EEG GAN</h3><p>将GAN框架应用于人工脑电图信号的生成，提出了EEG-GAN框架，用于脑电图（electroencephalographic，EEG）脑信号的生成。</p>
@@ -195,12 +195,12 @@
 <p>2、采用了DCGAN 相似结构卷积进行上采样（up-sampling）和下采样（down-sampling） </p>
 <p>能够有效的提取特征</p>
 <p>3、加入了LSTM 适合做时间序列的数据的生成。</p>
-<p>关于距离函数的改进，加入了惩罚项：<img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.35.png" alt="屏幕快照 2018-07-29 23.05.35"></p>
+<p>关于距离函数的改进，加入了惩罚项：<img src="GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.35.png" alt="屏幕快照 2018-07-29 23.05.35"></p>
 <p>其中，$\lambda$  不是随着Wasserstein距离的不同而做相应的变化，距离大 $\lambda$ 大，反正 $\lambda$ 小。具体原因见论文。</p>
-<p>Loss 函数：<img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.10.34.png" alt="屏幕快照 2018-07-29 23.10.34"></p>
+<p>Loss 函数：<img src="GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.10.34.png" alt="屏幕快照 2018-07-29 23.10.34"></p>
 <p>该loss 的优点：当分布的距离较小时，仍然存在稳定的梯度。</p>
 <p><strong>信号生成效果</strong></p>
-<p><img src="/2018/07/29/GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.44.png" alt="屏幕快照 2018-07-29 23.05.44"></p>
+<p><img src="GAN-serial/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-29%2023.05.44.png" alt="屏幕快照 2018-07-29 23.05.44"></p>
 <p><strong>缺点</strong></p>
 <p>今年刚出的论文，缺点还没有明显暴露；</p>
 <p>没有源码，没有办法做快速验证。</p>
@@ -233,7 +233,7 @@
 
                     </section>
                 </aside>
-        </div>
+        </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     </body>
 
 </html>
