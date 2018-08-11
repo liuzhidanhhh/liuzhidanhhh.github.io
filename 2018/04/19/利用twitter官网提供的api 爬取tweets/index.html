@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2 几点说明： 1.爬推特数据需要翻墙，推荐用ss。代码翻墙需要http，https代理。如果是socks的话会发现浏览器能翻墙，但是代码会提示 1tweepy.error.Twe">
+<meta name="description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2">
 <meta name="keywords" content="python tweepy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用Twitter官网提供的api 爬取tweets.md">
 <meta property="og:url" content="https://liuzhidanhhh.github.io/2018/04/19/利用twitter官网提供的api 爬取tweets/index.html">
 <meta property="og:site_name" content="Lzd&#39;s blog">
-<meta property="og:description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2 几点说明： 1.爬推特数据需要翻墙，推荐用ss。代码翻墙需要http，https代理。如果是socks的话会发现浏览器能翻墙，但是代码会提示 1tweepy.error.Twe">
+<meta property="og:description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-31T07:01:27.000Z">
+<meta property="og:updated_time" content="2018-08-11T03:15:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Twitter官网提供的api 爬取tweets.md">
-<meta name="twitter:description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2 几点说明： 1.爬推特数据需要翻墙，推荐用ss。代码翻墙需要http，https代理。如果是socks的话会发现浏览器能翻墙，但是代码会提示 1tweepy.error.Twe">
+<meta name="twitter:description" content="利用twitter官网提供的api及tweepy库爬取tweets tweepy官网文档 思路： 1.以用户为中心，爬取用户的所有推文数据 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表 3.循环1,2">
 
 
 
@@ -306,6 +306,7 @@
 1.以用户为中心，爬取用户的所有推文数据<br>
 2.根据用户id寻找用户朋友的twitter id扩展待爬用户表<br>
 3.循环1,2</p>
+<a id="more"></a>
 <p><strong>几点说明：</strong><br>
 1.爬推特数据需要翻墙，推荐用ss。代码翻墙需要http，https代理。如果是socks的话会发现浏览器能翻墙，但是代码会提示</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tweepy.error.TweepError: Failed to send request: HTTPSConnectionPool(host=&apos;api.twitter.com&apos;, port=443): Max retries exceeded with url: ....</span><br></pre></td></tr></table></figure>
