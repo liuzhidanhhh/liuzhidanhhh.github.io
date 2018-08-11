@@ -259,6 +259,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/12/广义逆阵/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/12/广义逆阵/" itemprop="url">广义逆阵</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T01:11:54+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/线性代数/" itemprop="url" rel="index">
+                    <span itemprop="name">线性代数</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>定义：</p>
+<p><strong>广义逆阵</strong>（Generalized inverse）[<a href="https://zh.wikipedia.org/wiki/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-1" target="_blank" rel="noopener">1]</a>也称为<strong>伪逆矩阵</strong>（pseudoinverse）[<a href="https://zh.wikipedia.org/wiki/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-2" target="_blank" rel="noopener">2]</a>，是在<a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6" target="_blank" rel="noopener">数学</a><a href="https://zh.wikipedia.org/wiki/%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">矩阵</a>领域内的名词，一矩阵<em>A</em>的广义逆阵是指另一矩阵具有部分<a href="https://zh.wikipedia.org/wiki/%E9%80%86%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">逆矩阵</a>的特性，但是不一定具有<a href="https://zh.wikipedia.org/wiki/%E9%80%86%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">逆矩阵</a>的所有特性。假设一矩阵{\displaystyle A\in \mathbb {R} ^{n\times m}}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ad600f721776272549faed3bdcaa4b647e8cc3ce" alt="{\displaystyle A\in \mathbb {R} ^{n\times m}}">及另一矩阵{\displaystyle A^{\mathrm {g} }\in \mathbb {R} ^{m\times n}}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0e79ab5eed6e3ca0235e82d8e50b7d2a62a0baad" alt="{\displaystyle A^{\mathrm {g} }\in \mathbb {R} ^{m\times n}}">，若{\displaystyle A^{\mathrm {g} }}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e112bbe0883efe7f99fc045d472bceb71ba7756a" alt="{\displaystyle A^{\mathrm {g} }}">满足{\displaystyle AA^{\mathrm {g} }A=A}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0df4de96c7a467379329d61f13f792efa52a8719" alt="{\displaystyle AA^{\mathrm {g} }A=A}">，则{\displaystyle A^{\mathrm {g} }}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e112bbe0883efe7f99fc045d472bceb71ba7756a" alt="{\displaystyle A^{\mathrm {g} }}">即为{\displaystyle A}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">的广义逆阵。</p>
+<p>建构广义逆阵的目的是针对可逆矩阵以外的矩阵（例如非方阵的矩阵）可以找到一矩阵有一些类似逆矩阵的特性。任意的矩阵都存在广义逆阵，若一矩阵存在<a href="https://zh.wikipedia.org/wiki/%E9%80%86%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">逆矩阵</a>，逆矩阵即为其唯一的广义逆阵。有些广义逆阵可以定义在和<a href="https://zh.wikipedia.org/wiki/%E7%B5%90%E5%90%88%E5%BE%8B" target="_blank" rel="noopener">结合律</a><a href="https://zh.wikipedia.org/wiki/%E4%B9%98%E6%B3%95" target="_blank" rel="noopener">乘法</a>有关的<a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E7%BB%93%E6%9E%84" target="_blank" rel="noopener">数学结构</a>（例如<a href="https://zh.wikipedia.org/wiki/%E5%8D%8A%E7%BE%A4" target="_blank" rel="noopener">半群</a>）中。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/05/酒鬼漫步的数学-随机过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -869,7 +1013,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -880,7 +1024,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 
               </div>
@@ -891,7 +1035,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
