@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="信号与系统,故障诊断," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta name="keywords" content="信号与系统,故障诊断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibert 变换">
+<meta property="og:url" content="https://liuzhidanhhh.github.io/2018/08/12/Hibert-变换/index.html">
+<meta property="og:site_name" content="Lzd&#39;s blog">
+<meta property="og:description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/c510b63578322050121fe966f2e5770bea43308d">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Cpi+%7D%7B2%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7Bx%7D+%5Cleft%28+t+%5Cright%29+%3Dx%5Cleft%28+t+%5Cright%29+%2A%5Cleft%28%5Cpi+t+%5Cright%29+%5E%7B-1%7D+">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-5407ae4168d7bb220c4cba52ae4495e0_r.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=e%5E%7Bix%7D%3Dcos%5Cleft%28x%5Cright%29%2Bisin%5Cleft%28x%5Cright%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cint_%7B-%5Cpi%7D%5E%7B%5Cpi%7D+cos%5Ccdot+sin%3D0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Cpi%7D%7B2%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=X%5Cleft%28+t+%5Cright%29+%3Dx%5Cleft%28+t+%5Cright%29+%2Bi%5Ctilde%7Bx%7D+%5Cleft%28t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=X%5Cleft%28+t%5Cright%29+">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-30999a6c59fd1f8c3f157b41f371b15b_hd.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-207275176f39736786e2fabe52fc7dab_hd.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cpsi+%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=X%5Cleft%28t+%5Cright%29+%3D%5Cleft%7C+X%5Cleft%28+t+%5Cright%29++%5Cright%7C+%5Cleft%5B+cos%5Cpsi+%5Cleft%28+t+%5Cright%29++%2Bisin%5Cpsi+%5Cleft%28+t+%5Cright%29+%5Cright%5D+%3DA%5Cleft%28+t+%5Cright%29+e%5E%7Bj%5Cpsi+%5Cleft%28+t+%5Cright%29+%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=A%5Cleft%28+t+%5Cright%29+%3D%5Cpm+%5Cleft%7CX%5Cleft%28+t+%5Cright%29+%5Cright%7C+%3D%5Cpm+%5Csqrt%7Bx%5E%7B2%7D+%5Cleft%28+t+%5Cright%29+%2B%5Ctilde%7Bx%7D+%5E%7B2%7D%5Cleft%28+t+%5Cright%29++%7D+%3D%5Cpm+e%5E%7BRe%5Cleft%5B+lnX%5Cleft%28+t+%5Cright%29++%5Cright%5D+%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cpsi+%5Cleft%28+t+%5Cright%29+%3Darctan%5Cfrac%7B%5Ctilde%7Bx%7D+%5Cleft%28+t+%5Cright%29+%7D%7B+x%5Cleft%28+t+%5Cright%29+%7D+%3DIm%5Cleft%5B+lnX%5Cleft%28+t+%5Cright%29++%5Cright%5D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cleft%28+x+%2C%5Ctilde%7Bx%7D+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cleft%28+A%2C%5Cpsi++%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7Bx%7D+%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+sin%5Cpsi+%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Comega+%5Cleft%28t+%5Cright%29+%3D%5Cpsi+%5E%7B%27%7D%5Cleft%28+t+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cint_%7B0%7D%5E%7Bt%7D+%5Comega++%5Cleft%28+t+%5Cright%29+d+t+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%5Cleft%28+%5Comega++%5Cright%29+%3D%5Cleft%28+%5CDelta+%5Comega+%5E%7B2%7D+%5Cright%29%2F2%5Cleft%28+%5Comega+%5E%7B2%7D%2B%5CDelta+%5Comega+%5E%7B2%7D+%5Cright%29+%5E%7B3%2F2%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%5Cleft%5B+%5Comega%5Cleft%28+t+%5Cright%29+%3C0++%5Cright%29%5D%3D0.5%5Cleft%28+1-%5Cfrac%7B%5Cvarpi+%7D%7B%5Cleft%7C+%5Cvarpi++%5Cright%7C+%7D+%5Cright%29+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%5Cleft%5B+%5Comega%5Cleft%28+t+%5Cright%29+%3C0++%5Cright%29%5D%3D%5CDelta+%5Comega+%5E%7B2%7D%2F144%5CDelta++%5Comega+_%7B0%7D%5E%7B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Comega+_%7B0%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+%2F%5Comega+_%7B0%7D%5Cleq+0.01">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-a0072ab56e98aa26f49e8284418cf92c_hd.jpg">
+<meta property="og:updated_time" content="2018-08-14T08:26:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hibert 变换">
+<meta name="twitter:description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta name="twitter:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/c510b63578322050121fe966f2e5770bea43308d">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://liuzhidanhhh.github.io/2018/08/12/Hibert-变换/"/>
+
+
+
+
+
+  <title>Hibert 变换 | Lzd's blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lzd's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/12/Hibert-变换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hibert 变换</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T23:17:32+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="hilbert-变换"><a class="markdownIt-Anchor" href="#hilbert-变换"></a> Hilbert 变换</h1>
+<p>–实习生 刘志丹（84104403） 2018/08/14</p>
+<p>一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换<strong>提供信号的幅度（包络）、瞬时相位和频率信息</strong>。</p>
+<p>非平稳信号就是指频率随时间变化的信号，所以在对<strong>非平稳信号</strong>进行分析时，求解<strong>瞬时频率</strong>是必要的过程。</p>
+<p>我们可以通过<strong>用Hilbert变换</strong>解决瞬时频率问题。先构造解析信号求解瞬时包络和瞬时相位，再计算瞬时相位的一阶导数得到瞬时频率。具体的求解过程会在下面详细讲述。</p>
+<h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
+<p>希尔伯特变换是一个线性积分变换（和Laplace、Fourier一样）设有一个实值函数x(t),它的Hilbert 变换公式为：</p>
+<p>![屏幕快照 2018-08-13 11.31.51](Hibert-变换/屏幕快照 2018-08-13 11.31.51.png)</p>
+<p>H(x) 也是一个实值函数。</p>
+<p>注意：积分需要考虑此积分为<a href="https://link.zhihu.com/?target=http%3A//baike.baidu.com/view/4823886.htm" target="_blank" rel="noopener">柯西主值</a>(Cauchy principal value)，其避免掉在<em>τ</em>=<em>t</em>以及<em>τ</em>=±∞等处的<a href="https://link.zhihu.com/?target=http%3A//baike.baidu.com/view/19519.htm" target="_blank" rel="noopener">奇点</a>。</p>
+<p>Hilbert变换的表达式实际上就是将原始信号和一个信号做 <strong>卷积</strong> 的结果。这个用来卷积的信号就是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mi>π</mi><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">h(t)=\frac{1}{\pi t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.845108em;"></span><span class="strut bottom" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="base"><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord mathit">t</span><span class="mclose">)</span><span class="mord rule" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mord rule" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">π</span><span class="mord mathit mtight">t</span></span></span></span><span style="top:-3.15em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy" style="height:0.2em;"><svg width="400em" height="0.2em" viewbox="0 0 400000 200" preserveaspectratio="xMinYMin slice"><path d="M0 80H400000 v40H0z M0 80H400000 v40H0z"/></svg></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>注：卷积：函数f、g是定义在<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/c510b63578322050121fe966f2e5770bea43308d" alt="\mathbb {R} ^{n}"> 上的可测函数（measurable function），f 与g 的卷积记作f*g，它是其中一个函数翻转并平移后与另一个函数的乘积的积分，是一个对平移量的函数，也就是：![屏幕快照 2018-08-13 14.47.11](Hibert-变换/屏幕快照 2018-08-13 14.47.11.png)</p>
+<h3 id="希尔伯特变换的物理意义"><a class="markdownIt-Anchor" href="#希尔伯特变换的物理意义"></a> 希尔伯特变换的物理意义</h3>
+<p>物理上，HT等价于一个特殊的线性滤波器，所有的频谱幅度均没有改变，只是<strong>相位平移</strong>了**<img src="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Cpi+%7D%7B2%7D+" alt="-\frac{\pi }{2} ">**，由卷积定义，信号<img src="https://www.zhihu.com/equation?tex=x%5Cleft%28+t+%5Cright%29+" alt="x\left( t \right) ">的HT表示为<img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bx%7D+%5Cleft%28+t+%5Cright%29+%3Dx%5Cleft%28+t+%5Cright%29+%2A%5Cleft%28%5Cpi+t+%5Cright%29+%5E%7B-1%7D+" alt="\tilde{x} \left( t \right) =x\left( t \right) *\left(\pi t \right) ^{-1} ">，理想HT的冲击响应、幅频和相频就如下图一样：</p>
+<p><img src="https://pic3.zhimg.com/v2-5407ae4168d7bb220c4cba52ae4495e0_r.jpg" alt=""></p>
+<h3 id="解析信号"><a class="markdownIt-Anchor" href="#解析信号"></a> 解析信号</h3>
+<h4 id="欧拉公式eixcosleftxrightisinleftxright"><a class="markdownIt-Anchor" href="#欧拉公式eixcosleftxrightisinleftxright"></a> 欧拉公式：<img src="https://www.zhihu.com/equation?tex=e%5E%7Bix%7D%3Dcos%5Cleft%28x%5Cright%29%2Bisin%5Cleft%28x%5Cright%29" alt="e^{ix}=cos\left(x\right)+isin\left(x\right)"></h4>
+<ul>
+<li>cos和sin函数正交，<img src="https://www.zhihu.com/equation?tex=%5Cint_%7B-%5Cpi%7D%5E%7B%5Cpi%7D+cos%5Ccdot+sin%3D0" alt="\int_{-\pi}^{\pi} cos\cdot sin=0"></li>
+<li>cos和sin函数相位相差<img src="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Cpi%7D%7B2%7D+" alt="-\frac{\pi}{2} "></li>
+</ul>
+<p>如果一个复信号的实部和虚部为一对HT变换对，我们称这个信号为<strong>解析信号</strong> 公式化为：<img src="https://www.zhihu.com/equation?tex=X%5Cleft%28+t+%5Cright%29+%3Dx%5Cleft%28+t+%5Cright%29+%2Bi%5Ctilde%7Bx%7D+%5Cleft%28t+%5Cright%29+" alt="X\left( t \right) =x\left( t \right) +i\tilde{x} \left(t \right) ">，其中<strong>实部和虚部为一对HT变换对</strong>。</p>
+<p>解析信号<img src="https://www.zhihu.com/equation?tex=X%5Cleft%28+t%5Cright%29+" alt="X\left( t\right) ">在复平面和时间轴构成的空间中的图形如下：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-30999a6c59fd1f8c3f157b41f371b15b_hd.jpg" alt=""></p>
+<p>如果单独取实轴和虚轴构成的平面，那么整个图形如下：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-207275176f39736786e2fabe52fc7dab_hd.jpg" alt="img"></p>
+<p>此时的旋转向量为解析信号包络A(t)，旋转相位为<img src="https://www.zhihu.com/equation?tex=%5Cpsi+%5Cleft%28+t+%5Cright%29+" alt="">，其实数轴投影的信号表示为<img src="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+" alt="">，用前面定义的解析信号表达如下：<img src="https://www.zhihu.com/equation?tex=X%5Cleft%28t+%5Cright%29+%3D%5Cleft%7C+X%5Cleft%28+t+%5Cright%29++%5Cright%7C+%5Cleft%5B+cos%5Cpsi+%5Cleft%28+t+%5Cright%29++%2Bisin%5Cpsi+%5Cleft%28+t+%5Cright%29+%5Cright%5D+%3DA%5Cleft%28+t+%5Cright%29+e%5E%7Bj%5Cpsi+%5Cleft%28+t+%5Cright%29+%7D" alt=""></p>
+<p>这样我们可以方便得到信号的<strong>瞬时幅度（包络）和瞬时相位</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=A%5Cleft%28+t+%5Cright%29+%3D%5Cpm+%5Cleft%7CX%5Cleft%28+t+%5Cright%29+%5Cright%7C+%3D%5Cpm+%5Csqrt%7Bx%5E%7B2%7D+%5Cleft%28+t+%5Cright%29+%2B%5Ctilde%7Bx%7D+%5E%7B2%7D%5Cleft%28+t+%5Cright%29++%7D+%3D%5Cpm+e%5E%7BRe%5Cleft%5B+lnX%5Cleft%28+t+%5Cright%29++%5Cright%5D+%7D" alt="A\left( t \right) =\pm \left|X\left( t \right) \right| =\pm \sqrt{x^{2} \left( t \right) +\tilde{x} ^{2}\left( t \right)  } =\pm e^{Re\left[ lnX\left( t \right)  \right] }">，<img src="https://www.zhihu.com/equation?tex=%5Cpsi+%5Cleft%28+t+%5Cright%29+%3Darctan%5Cfrac%7B%5Ctilde%7Bx%7D+%5Cleft%28+t+%5Cright%29+%7D%7B+x%5Cleft%28+t+%5Cright%29+%7D+%3DIm%5Cleft%5B+lnX%5Cleft%28+t+%5Cright%29++%5Cright%5D+" alt="\psi \left( t \right) =arctan\frac{\tilde{x} \left( t \right) }{ x\left( t \right) } =Im\left[ lnX\left( t \right)  \right] "></p>
+<p>这样讲坐标<img src="https://www.zhihu.com/equation?tex=%5Cleft%28+x+%2C%5Ctilde%7Bx%7D+%5Cright%29+" alt="\left( x ,\tilde{x} \right) ">变换为极坐标<img src="https://www.zhihu.com/equation?tex=%5Cleft%28+A%2C%5Cpsi++%5Cright%29+" alt="\left( A,\psi  \right) ">,<img src="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+" alt="x\left(t \right) =A\left( t \right) cos\psi \left( t \right) ">,<img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bx%7D+%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+sin%5Cpsi+%5Cleft%28+t+%5Cright%29+" alt="\tilde{x} \left(t \right) =A\left( t \right) sin\psi \left( t \right) "></p>
+<p><strong>Gabor和Ville定义过解析信号的瞬时频率（IF）：瞬时相位时间函数的一阶导数定义为瞬时频率，<img src="https://www.zhihu.com/equation?tex=%5Comega+%5Cleft%28t+%5Cright%29+%3D%5Cpsi+%5E%7B%27%7D%5Cleft%28+t+%5Cright%29+" alt="\omega \left(t \right) =\psi ^{'}\left( t \right) "></strong></p>
+<p>有了瞬时频率的定义，我们原来信号的模型进化为<img src="https://www.zhihu.com/equation?tex=x%5Cleft%28t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cpsi+%5Cleft%28+t+%5Cright%29+%3DA%5Cleft%28+t+%5Cright%29+cos%5Cint_%7B0%7D%5E%7Bt%7D+%5Comega++%5Cleft%28+t+%5Cright%29+d+t+" alt="x\left(t \right) =A\left( t \right) cos\psi \left( t \right) =A\left( t \right) cos\int_{0}^{t} \omega  \left( t \right) d t ">，这种信号模型中的瞬时频率在每一个信号采样点上都可以得到一个值，这样得到的瞬时频率值比通过峰峰值或是过零点的区间长度估计瞬时频率要更准确。</p>
+<p>用整个信号波形长度去估计信号瞬时频率，我们必须考虑一个问题，就是观测信号的瞬时频率的概率分布，</p>
+<h3 id="应用场景"><a class="markdownIt-Anchor" href="#应用场景"></a> 应用场景</h3>
+<h4 id="窄带信号"><a class="markdownIt-Anchor" href="#窄带信号"></a> 窄带信号</h4>
+<p>Hilbert变换最佳应用场景为<strong>窄带信号</strong>。对于随机窄带信号，观测信号的瞬时频率的概率分布为：<img src="https://www.zhihu.com/equation?tex=p%5Cleft%28+%5Comega++%5Cright%29+%3D%5Cleft%28+%5CDelta+%5Comega+%5E%7B2%7D+%5Cright%29%2F2%5Cleft%28+%5Comega+%5E%7B2%7D%2B%5CDelta+%5Comega+%5E%7B2%7D+%5Cright%29+%5E%7B3%2F2%7D+" alt="p\left( \omega  \right) =\left( \Delta \omega ^{2} \right)/2\left( \omega ^{2}+\Delta \omega ^{2} \right) ^{3/2} "></p>
+<p>形成负频率的概率先决条件为：<img src="https://www.zhihu.com/equation?tex=p%5Cleft%5B+%5Comega%5Cleft%28+t+%5Cright%29+%3C0++%5Cright%29%5D%3D0.5%5Cleft%28+1-%5Cfrac%7B%5Cvarpi+%7D%7B%5Cleft%7C+%5Cvarpi++%5Cright%7C+%7D+%5Cright%29+" alt="p\left[ \omega\left( t \right) &lt;0  \right)]=0.5\left( 1-\frac{\varpi }{\left| \varpi  \right| } \right) ">,例如，通过一个矩形滤波器的随机信号出现负频率的概率和滤波器宽度的正比关系为<img src="https://www.zhihu.com/equation?tex=p%5Cleft%5B+%5Comega%5Cleft%28+t+%5Cright%29+%3C0++%5Cright%29%5D%3D%5CDelta+%5Comega+%5E%7B2%7D%2F144%5CDelta++%5Comega+_%7B0%7D%5E%7B2%7D" alt="p\left[ \omega\left( t \right) &lt;0  \right)]=\Delta \omega ^{2}/144\Delta  \omega _{0}^{2}">,其中<img src="https://www.zhihu.com/equation?tex=%5Comega+_%7B0%7D" alt="\omega _{0}">为滤波器中心频率，<img src="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+" alt="\Delta \omega ">为滤波器带宽，这表明通过任意窄带滤波器后的随机信号任然有负的IF值，如果带宽比<img src="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+%2F%5Comega+_%7B0%7D%5Cleq+0.01" alt="\Delta \omega /\omega _{0}\leq 0.01">，这时出现负的IF值概率达到比百万分之一还小，这时可以认为IF值总是正的。 真实场景中的IF 值是不可能为负的，出现负值的IF值是无意义的。而HT变换对于非窄带信号处理得到的IF值又会出现负值，所以HT处理的信号只能是窄带信号。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-a0072ab56e98aa26f49e8284418cf92c_hd.jpg" alt=""></p>
+<h4 id="轴承故障诊断"><a class="markdownIt-Anchor" href="#轴承故障诊断"></a> 轴承故障诊断</h4>
+<p>Hilbert-huang 变换：</p>
+<p>1、 先用EMD（<a href="https://www.zhihu.com/question/29535443/answer/44720765?utm_campaign=webshare&amp;" target="_blank" rel="noopener">经验模态分解</a>）方法对非线性非稳态信号分解，获得一系列表征信号特征时间尺度的固有模态函数IMF，使得各个IMF是单分量的肤质或者频率调制信号。</p>
+<p>2、 对每个固有模态函数做Hilbert 变换，得到解析函数、幅值、相位、瞬时频率。时间频率平面上的幅值分布图为Hilbert谱。</p>
+<p>轴承在局部损伤时，其振动信号是一个调幅信号，<strong>共振解调法</strong>，也即<strong>包络检波频谱分析</strong>是目前最有效的诊断方法</p>
+<p>![屏幕快照 2018-08-14 10.50.55](Hibert-变换/屏幕快照 2018-08-14 10.50.55.png)</p>
+<h4 id="齿轮疲劳裂纹诊断"><a class="markdownIt-Anchor" href="#齿轮疲劳裂纹诊断"></a> 齿轮疲劳裂纹诊断</h4>
+<p>当齿轮的某一齿出现疲劳裂纹是，它的局部刚度下降，齿轮的齿和振动将产生图标的相迟，这一特征对早期和扩展的齿轮齿轮疲劳裂纹诊断较为灵敏。</p>
+<p>![屏幕快照 2018-08-14 10.07.08](Hibert-变换/屏幕快照 2018-08-14 10.07.08.png)</p>
+<p>从振动信号中提取带故障的相位信息需要考虑(1)同步信号平均; (2)带通滤波器的带宽。根据震振动信号的相位跳变信息落在齿和频率的边带中，带通的截止频率应在置于附近齿和谐波书之间的峰值最低处。如下图：</p>
+<p>![屏幕快照 2018-08-14 10.20.49](Hibert-变换/屏幕快照 2018-08-14 10.20.49.png)</p>
+<h3 id="希尔伯特变换与傅立叶变换"><a class="markdownIt-Anchor" href="#希尔伯特变换与傅立叶变换"></a> 希尔伯特变换与傅立叶变换</h3>
+<p>现实中大量频域分析均用到傅里叶变换，傅里叶变换是一个<strong>全局估计</strong>，它告诉了我们观测信号整个时间段里的一个综合表现，它综合的告诉我们观测信号具有哪些频率，而现实的些运用却要求我们精确知道频率变化随时间的一些信息，比如对于旋转机械来讲，快转和慢转的旋转频率是不一样的，如果一段机械加减速过程的信号给我们，单纯做傅里叶分析，我们是得不到任何信息的，而如果有频率和时间的图形，那么我们可以明显看到旋转频率随时间的变化规律，而清楚知道机械是在加速还是减速抑或是平稳运行。所以时间-频率分布的图形非常有利于我们实际运用。FFT只有频率没有时间，</p>
+<p>窗口傅里叶和小波计算频率是短区间内计算，而<strong>FFT更是整个区间的综合表现</strong>，窗口傅里叶是窗口内所有数据做分析，而针对窗口内的频率变化是不能估计出来的，同样小波也是，它是对分析滤波器长度大小的数据做综合分析，而长度内的变化也是无能为力，也就是说，它们的分辨率均受到限制（除小波外，小波能分析到相邻两个点间的频率变化，这是小波滤波器长度为2），而HT不一样，HT的IF值能观察到连续两个点间的变化，其分析分辨率达到了观测信号的采样的分辨率。</p>
+<h3 id="ht运用的条件"><a class="markdownIt-Anchor" href="#ht运用的条件"></a> HT运用的条件</h3>
+<p><strong>窄带信号、不含噪声，不是复杂信号，不出现尖峰跳跃，数据尽量平稳，没有“骑波”，避免不可解释的负频率出现等等</strong></p>
+<h3 id="几个疑问的解答"><a class="markdownIt-Anchor" href="#几个疑问的解答"></a> 几个疑问的解答</h3>
+<ol>
+<li>
+<p>什么事包络谱：</p>
+<p>包络谱，顾名思义，信号包络的谱，即求出信号包络，再进行傅里叶变换，得到就是包络谱，即原始信号的包络信号的幅度随频率变化的情况。首先知道信号包络是什么，怎么求，求信号包络最直接的方法就是Hilbert变换，然后通过傅里叶变换就得到包络谱</p>
+</li>
+<li>
+<p>对于论文<a href="https://link.springer.com/chapter/10.1007/978-3-319-69456-6_16" target="_blank" rel="noopener">Speed Invariant Bearing Fault Characterization Using Convolutional Neural Networks </a> 中信号预处理中为什么计算Hilbert变换而不是直接用FT？</p>
+<p>答案在于上面希尔伯特变换与傅立叶变换一节中。</p>
+<p>主要是对于非稳态信号而言，需要得到瞬时频率，单纯做傅立叶变换只能得到全局的频频谱信息。</p>
+</li>
+<li>
+<p>既然HT相比FT是为了得到瞬时频率，那为什么用了Hilbert 变换后还要进行一次FT变化？</p>
+<p>先进行HT，再算FT ，是目前故障诊断中最为有效的方法<strong>共振解调法</strong>的部分内容，通过HT变换得到随时间变化的振幅(包络)，再经过FT变换得到包络谱，信号的时域包络转化成频域的包络谱。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/信号与系统/" rel="tag"># 信号与系统</a>
+          
+            <a href="/tags/故障诊断/" rel="tag"># 故障诊断</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/05/酒鬼漫步的数学-随机过程/" rel="next" title="酒鬼漫步的数学-随机过程">
+                <i class="fa fa-chevron-left"></i> 酒鬼漫步的数学-随机过程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">lzd</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hilbert-变换"><span class="nav-number">1.</span> <span class="nav-text"> Hilbert 变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#希尔伯特变换的物理意义"><span class="nav-number">1.0.2.</span> <span class="nav-text"> 希尔伯特变换的物理意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析信号"><span class="nav-number">1.0.3.</span> <span class="nav-text"> 解析信号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#欧拉公式eixcosleftxrightisinleftxright"><span class="nav-number">1.0.3.1.</span> <span class="nav-text"> 欧拉公式：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.0.4.</span> <span class="nav-text"> 应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#窄带信号"><span class="nav-number">1.0.4.1.</span> <span class="nav-text"> 窄带信号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轴承故障诊断"><span class="nav-number">1.0.4.2.</span> <span class="nav-text"> 轴承故障诊断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#齿轮疲劳裂纹诊断"><span class="nav-number">1.0.4.3.</span> <span class="nav-text"> 齿轮疲劳裂纹诊断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#希尔伯特变换与傅立叶变换"><span class="nav-number">1.0.5.</span> <span class="nav-text"> 希尔伯特变换与傅立叶变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ht运用的条件"><span class="nav-number">1.0.6.</span> <span class="nav-text"> HT运用的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个疑问的解答"><span class="nav-number">1.0.7.</span> <span class="nav-text"> 几个疑问的解答</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lzd</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
