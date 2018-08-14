@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta name="description" content="Hilbert 变换 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析信号求解瞬时包络和瞬时相位，再计算瞬时相位的一阶导数得到瞬时">
 <meta name="keywords" content="信号与系统,故障诊断">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hibert 变换">
 <meta property="og:url" content="https://liuzhidanhhh.github.io/2018/08/12/Hibert-变换/index.html">
 <meta property="og:site_name" content="Lzd&#39;s blog">
-<meta property="og:description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta property="og:description" content="Hilbert 变换 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析信号求解瞬时包络和瞬时相位，再计算瞬时相位的一阶导数得到瞬时">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/c510b63578322050121fe966f2e5770bea43308d">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Cpi+%7D%7B2%7D+">
@@ -117,10 +117,10 @@
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CDelta+%5Comega+%2F%5Comega+_%7B0%7D%5Cleq+0.01">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-a0072ab56e98aa26f49e8284418cf92c_hd.jpg">
-<meta property="og:updated_time" content="2018-08-14T08:26:06.000Z">
+<meta property="og:updated_time" content="2018-08-14T08:32:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hibert 变换">
-<meta name="twitter:description" content="Hilbert 变换 –实习生 刘志丹（84104403） 2018/08/14 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析">
+<meta name="twitter:description" content="Hilbert 变换 一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换提供信号的幅度（包络）、瞬时相位和频率信息。 非平稳信号就是指频率随时间变化的信号，所以在对非平稳信号进行分析时，求解瞬时频率是必要的过程。 我们可以通过用Hilbert变换解决瞬时频率问题。先构造解析信号求解瞬时包络和瞬时相位，再计算瞬时相位的一阶导数得到瞬时">
 <meta name="twitter:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/c510b63578322050121fe966f2e5770bea43308d">
 
 
@@ -362,10 +362,10 @@
 
       
         <h1 id="hilbert-变换"><a class="markdownIt-Anchor" href="#hilbert-变换"></a> Hilbert 变换</h1>
-<p>–实习生 刘志丹（84104403） 2018/08/14</p>
 <p>一个变化的测量信号可以描述为不同信号属性随时间变化的结果，估计这些信号属性是标准的信号处理过程，Hilbert变换<strong>提供信号的幅度（包络）、瞬时相位和频率信息</strong>。</p>
 <p>非平稳信号就是指频率随时间变化的信号，所以在对<strong>非平稳信号</strong>进行分析时，求解<strong>瞬时频率</strong>是必要的过程。</p>
 <p>我们可以通过<strong>用Hilbert变换</strong>解决瞬时频率问题。先构造解析信号求解瞬时包络和瞬时相位，再计算瞬时相位的一阶导数得到瞬时频率。具体的求解过程会在下面详细讲述。</p>
+<a id="more"></a>
 <h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
 <p>希尔伯特变换是一个线性积分变换（和Laplace、Fourier一样）设有一个实值函数x(t),它的Hilbert 变换公式为：</p>
 <p>![屏幕快照 2018-08-13 11.31.51](Hibert-变换/屏幕快照 2018-08-13 11.31.51.png)</p>
