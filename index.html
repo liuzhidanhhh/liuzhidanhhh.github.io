@@ -259,6 +259,784 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/10/18/fine-tune/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/fine-tune/" itemprop="url">Fine-Tune</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-18T21:20:12+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。</p>
+<h3 id="为什么要使用fine-tuning"><a class="markdownIt-Anchor" href="#为什么要使用fine-tuning"></a> 为什么要使用fine-tuning ：</h3>
+<ul>
+<li>普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。</li>
+<li>如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟合问题。（自己的数据集可能数据量不足）</li>
+</ul>
+<h3 id="使用fine-tune的情况"><a class="markdownIt-Anchor" href="#使用fine-tune的情况"></a> 使用fine-tune的情况：</h3>
+<ul>
+<li>使用的数据集和预训练模型的数据集相似</li>
+<li>自己搭建的网络精度太低</li>
+<li>数据集相似，但数据量太少</li>
+<li>计算资源太少</li>
+</ul>
+<h3 id="常用做法"><a class="markdownIt-Anchor" href="#常用做法"></a> 常用做法</h3>
+<ol>
+<li>修改预训练模型的softmax层，改成任务相关的softmax层。</li>
+<li>使用较小的学习率来训练网络，学习率通常设为原来的1/10.</li>
+<li>如果数据量少，只训练最后一层；如果数据量中等，可以训练后几层。</li>
+</ol>
+<h3 id="根据数据集特征使用fine-tuning"><a class="markdownIt-Anchor" href="#根据数据集特征使用fine-tuning"></a> 根据数据集特征使用fine-tuning</h3>
+<ul>
+<li>数据量少，相似度高：该最后几层货softmax层</li>
+<li>数据量少，相似度低：冻结前几层，训练后面的层</li>
+<li>数据量大，相似度低：建议重新训练</li>
+<li>数据量大，相似度高（理想情况）：直接利用预训练模型的权重训练模型</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/09/08/排序算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/08/排序算法/" itemprop="url">排序算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-08T10:45:42+08:00">
+                2018-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="快速排序"><a class="markdownIt-Anchor" href="#快速排序"></a> 快速排序</h1>
+<h3 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h3>
+<p>根据基数，将原数组分成3部分，将比基数小的数放在基数的左边，比基数大的放在右边。对左右两块分别进行快排。</p>
+<p>![屏幕快照 2018-09-08 10.49.03](排序算法/屏幕快照 2018-09-08 10.49.03.png)</p>
+<h3 id="复杂度分析"><a class="markdownIt-Anchor" href="#复杂度分析"></a> 复杂度分析</h3>
+<h3 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h3>
+<h1 id="冒泡排序"><a class="markdownIt-Anchor" href="#冒泡排序"></a> 冒泡排序</h1>
+<h3 id="原理-2"><a class="markdownIt-Anchor" href="#原理-2"></a> 原理</h3>
+<h3 id="复杂度分析-2"><a class="markdownIt-Anchor" href="#复杂度分析-2"></a> 复杂度分析</h3>
+<h3 id="代码实现-2"><a class="markdownIt-Anchor" href="#代码实现-2"></a> 代码实现</h3>
+<h1 id="直接插入排序"><a class="markdownIt-Anchor" href="#直接插入排序"></a> 直接插入排序</h1>
+<h3 id="原理-3"><a class="markdownIt-Anchor" href="#原理-3"></a> 原理</h3>
+<h3 id="复杂度分析-3"><a class="markdownIt-Anchor" href="#复杂度分析-3"></a> 复杂度分析</h3>
+<h3 id="代码实现-3"><a class="markdownIt-Anchor" href="#代码实现-3"></a> 代码实现</h3>
+<h1 id="直接选择排序"><a class="markdownIt-Anchor" href="#直接选择排序"></a> 直接选择排序</h1>
+<h3 id="原理-4"><a class="markdownIt-Anchor" href="#原理-4"></a> 原理</h3>
+<h3 id="复杂度分析-4"><a class="markdownIt-Anchor" href="#复杂度分析-4"></a> 复杂度分析</h3>
+<h3 id="代码实现-4"><a class="markdownIt-Anchor" href="#代码实现-4"></a> 代码实现</h3>
+<h1 id="希尔排序"><a class="markdownIt-Anchor" href="#希尔排序"></a> 希尔排序</h1>
+<h3 id="原理-5"><a class="markdownIt-Anchor" href="#原理-5"></a> 原理</h3>
+<h3 id="复杂度分析-5"><a class="markdownIt-Anchor" href="#复杂度分析-5"></a> 复杂度分析</h3>
+<h3 id="代码实现-5"><a class="markdownIt-Anchor" href="#代码实现-5"></a> 代码实现</h3>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/09/03/distant-supervision/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/03/distant-supervision/" itemprop="url">Distant Supervision</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-03T11:14:16+08:00">
+                2018-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>distant supervision 下关系抽取任务中目前比较常用的一类方法。由 M Mintz 于 ACL2009 上首次提出，与传统预先定义关系类别不同，Distant Supervision 通过将知识库与非结构化文本对齐来自动构建大量训练数据，减少模型对人工标注数据的依赖，增强模型跨领域适应能力。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/03/distant-supervision/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/31/走格子问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/31/走格子问题/" itemprop="url">走格子问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-31T21:21:33+08:00">
+                2018-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/30/N-Gram/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/30/N-Gram/" itemprop="url">N-Gram</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-30T17:10:00+08:00">
+                2018-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="n-gram"><a class="markdownIt-Anchor" href="#n-gram"></a> N-Gram</h1>
+<p>人们基于一定的语料库，可以利用N-Gram<strong>来预计或者评估一个句子是否合理</strong>。另外一方面，N-Gram的另外一个作用是用来<strong>评估两个字符串之间的差异程度</strong>。这是模糊匹配中常用的一种手段。</p>
+<h3 id="应用"><a class="markdownIt-Anchor" href="#应用"></a> 应用</h3>
+<h4 id="基于n-gram模型定义的字符串距离"><a class="markdownIt-Anchor" href="#基于n-gram模型定义的字符串距离"></a> 基于N-Gram模型定义的字符串距离</h4>
+<h4 id="利用n-gram模型评估语句是否合理"><a class="markdownIt-Anchor" href="#利用n-gram模型评估语句是否合理"></a> 利用N-Gram模型评估语句是否合理</h4>
+<h4 id="使用n-gram模型时的数据平滑算法"><a class="markdownIt-Anchor" href="#使用n-gram模型时的数据平滑算法"></a> 使用N-Gram模型时的数据平滑算法</h4>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/30/马尔可夫链/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lzd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lzd's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/30/马尔可夫链/" itemprop="url">马尔可夫链</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-30T16:31:32+08:00">
+                2018-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="马尔可夫链"><a class="markdownIt-Anchor" href="#马尔可夫链"></a> 马尔可夫链</h1>
+<h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
+<p>马尔可夫链是满足<a href="https://zh.wikipedia.org/wiki/%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%80%A7%E8%B4%A8" target="_blank" rel="noopener">马尔可夫性质</a>的<a href="https://zh.wikipedia.org/wiki/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B" target="_blank" rel="noopener">随机过程</a>。</p>
+<p>为<a href="https://zh.wikipedia.org/wiki/%E7%8B%80%E6%85%8B%E7%A9%BA%E9%96%93_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)" target="_blank" rel="noopener">状态空间</a>中经过从一个状态到另一个状态的转换的<a href="https://zh.wikipedia.org/wiki/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B" target="_blank" rel="noopener">随机过程</a>。该过程要求具备“无记忆”的性质：下一状态的概率分布只能由当前状态决定，在时间序列中它前面的事件均与之无关。这种特定类型的“无记忆性”称作<a href="https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%8F%AF%E5%A4%AB%E6%80%A7%E8%B3%AA" target="_blank" rel="noopener">马尔可夫性质</a>。</p>
+<h3 id="性质"><a class="markdownIt-Anchor" href="#性质"></a> 性质</h3>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/16/OCR/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -455,7 +1233,7 @@
       
         
           
-            <p>![屏幕快照 2018-08-11 00.12.09](image/屏幕快照 2018-08-11 00.12.09.png)</p>
+            <p><img src="images/hh.png" alt="hh"></p>
 
           
         
@@ -737,733 +1515,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/05/酒鬼漫步的数学-随机过程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lzd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lzd's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/05/酒鬼漫步的数学-随机过程/" itemprop="url">酒鬼漫步的数学-随机过程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-05T18:03:06+08:00">
-                2018-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/概率论/" itemprop="url" rel="index">
-                    <span itemprop="name">概率论</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="酒鬼漫步的数学随机过程"><a class="markdownIt-Anchor" href="#酒鬼漫步的数学随机过程"></a> 酒鬼漫步的数学—随机过程</h1>
-<p>本文来自张天蓉科学网博客。</p>
-<p>链接地址：<a href="http://blog.sciencenet.cn/blog-677221-1071588.html" target="_blank" rel="noopener">http://blog.sciencenet.cn/blog-677221-1071588.html </a></p>
-<p>想象在曼哈顿东西南北格点化的街道中有一个小醉汉，他每次从他当时所在的交叉路口选择一条街，也就是随机选择了东南西北4种方向之一，然后往前走，走到下一个路口又随机选择一次……如此继续下去，他走的路径会具有什么样的特点呢？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/05/酒鬼漫步的数学-随机过程/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/07/29/GAN-serial/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lzd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lzd's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/29/GAN-serial/" itemprop="url">GAN Serial</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-29T23:57:15+08:00">
-                2018-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>论文链接： <a href="https://arxiv.org/abs/1701.07875" target="_blank" rel="noopener">WGAN</a> 、  <a href="https://arxiv.org/abs/1511.06434" target="_blank" rel="noopener">DCGAN</a> 、<a href="https://arxiv.org/abs/1806.01875" target="_blank" rel="noopener">EEG GAN</a></p>
-<p>在上一篇文章中中详细介绍了GAN 公式推导及优缺点。</p>
-<p>在这文章里主要介绍WGAN、DCGAN、EEG GAN 的特点，对于GAN的改进。</p>
-<p>参考了：<a href="https://zhuanlan.zhihu.com/p/25071913" target="_blank" rel="noopener">令人拍案叫绝的Wasserstein GAN</a> 对于WGAN的介绍非常清晰，强推！</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/29/GAN-serial/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/07/24/GAN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lzd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lzd's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/24/GAN/" itemprop="url">GAN（Generative Adversarial Networks）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-24T20:31:55+08:00">
-                2018-07-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="gangenerative-adversarial-networks"><a class="markdownIt-Anchor" href="#gangenerative-adversarial-networks"></a> GAN（Generative Adversarial Networks）</h2>
-<p>论文链接：<a href="https://arxiv.org/abs/1406.2661" target="_blank" rel="noopener">https://arxiv.org/abs/1406.2661</a></p>
-<h3 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h3>
-<p>GAN 对抗式生成网络，主要是一种博弈思想。主要包含两个网络：判别网络D、生成网络G。</p>
-<p>在这里判别网络可以看成是一个鉴赏家，生成网络可以看成是一个画家。判别网络D需要鉴定画作是出自新手画家G的，还是来自绘画大师的作品。G开始是一个新手画家，在和鉴赏家博弈的过程中，不断的提高自己的画技以欺骗鉴赏家，鉴赏家同时也在不断的提升自己的鉴赏能力。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/24/GAN/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/07/12/广义逆阵/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lzd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lzd's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/12/广义逆阵/" itemprop="url">广义逆阵</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-12T01:11:54+08:00">
-                2018-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/线性代数/" itemprop="url" rel="index">
-                    <span itemprop="name">线性代数</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义：</h3>
-<p><strong>广义逆阵</strong>（Generalized inverse）[<a href="https://zh.wikipedia.org/wiki/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-1" target="_blank" rel="noopener">1]</a>也称为<strong>伪逆矩阵</strong>（pseudoinverse）[<a href="https://zh.wikipedia.org/wiki/%E5%B9%BF%E4%B9%89%E9%80%86%E9%98%B5#cite_note-2" target="_blank" rel="noopener">2]</a>，是在<a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6" target="_blank" rel="noopener">数学</a><a href="https://zh.wikipedia.org/wiki/%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">矩阵</a>领域内的名词，一矩阵<em>A</em>的广义逆阵是指另一矩阵具有部分<a href="https://zh.wikipedia.org/wiki/%E9%80%86%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">逆矩阵</a>的特性，但是不一定具有<a href="https://zh.wikipedia.org/wiki/%E9%80%86%E7%9F%A9%E9%98%B5" target="_blank" rel="noopener">逆矩阵</a>的所有特性。假设一矩阵<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ad600f721776272549faed3bdcaa4b647e8cc3ce" alt="{\displaystyle A\in \mathbb {R} ^{n\times m}}">及另一矩阵<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0e79ab5eed6e3ca0235e82d8e50b7d2a62a0baad" alt="{\displaystyle A^{\mathrm {g} }\in \mathbb {R} ^{m\times n}}">，<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e112bbe0883efe7f99fc045d472bceb71ba7756a" alt="{\displaystyle A^{\mathrm {g} }}">满足<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0df4de96c7a467379329d61f13f792efa52a8719" alt="{\displaystyle AA^{\mathrm {g} }A=A}">，则<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e112bbe0883efe7f99fc045d472bceb71ba7756a" alt="{\displaystyle A^{\mathrm {g} }}">即为<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">的广义逆阵。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/12/广义逆阵/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/04/19/利用twitter官网提供的api 爬取tweets/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lzd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lzd's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/19/利用twitter官网提供的api 爬取tweets/" itemprop="url">利用Twitter官网提供的api 爬取tweets.md</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-19T23:51:37+08:00">
-                2018-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/爬虫/" itemprop="url" rel="index">
-                    <span itemprop="name">爬虫</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="利用twitter官网提供的api及tweepy库爬取tweets"><a class="markdownIt-Anchor" href="#利用twitter官网提供的api及tweepy库爬取tweets"></a> 利用twitter官网提供的api及tweepy库爬取tweets</h3>
-<p><a href="http://docs.tweepy.org/en/v3.5.0/" target="_blank" rel="noopener">tweepy官网文档</a></p>
-<p><strong>思路：</strong><br>
-1.以用户为中心，爬取用户的所有推文数据<br>
-2.根据用户id寻找用户朋友的twitter id扩展待爬用户表<br>
-3.循环1,2</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/19/利用twitter官网提供的api 爬取tweets/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1507,7 +1565,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1529,7 +1587,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
