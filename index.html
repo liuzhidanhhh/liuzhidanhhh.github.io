@@ -329,35 +329,15 @@
 
       
         
-          
-            <p>主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。</p>
+          <p>主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。</p>
 <h3 id="为什么要使用fine-tuning"><a class="markdownIt-Anchor" href="#为什么要使用fine-tuning"></a> 为什么要使用fine-tuning ：</h3>
-<ul>
-<li>普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。</li>
-<li>如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟合问题。（自己的数据集可能数据量不足）</li>
-</ul>
-<h3 id="使用fine-tune的情况"><a class="markdownIt-Anchor" href="#使用fine-tune的情况"></a> 使用fine-tune的情况：</h3>
-<ul>
-<li>使用的数据集和预训练模型的数据集相似</li>
-<li>自己搭建的网络精度太低</li>
-<li>数据集相似，但数据量太少</li>
-<li>计算资源太少</li>
-</ul>
-<h3 id="常用做法"><a class="markdownIt-Anchor" href="#常用做法"></a> 常用做法</h3>
-<ol>
-<li>修改预训练模型的softmax层，改成任务相关的softmax层。</li>
-<li>使用较小的学习率来训练网络，学习率通常设为原来的1/10.</li>
-<li>如果数据量少，只训练最后一层；如果数据量中等，可以训练后几层。</li>
-</ol>
-<h3 id="根据数据集特征使用fine-tuning"><a class="markdownIt-Anchor" href="#根据数据集特征使用fine-tuning"></a> 根据数据集特征使用fine-tuning</h3>
-<ul>
-<li>数据量少，相似度高：该最后几层货softmax层</li>
-<li>数据量少，相似度低：冻结前几层，训练后面的层</li>
-<li>数据量大，相似度低：建议重新训练</li>
-<li>数据量大，相似度高（理想情况）：直接利用预训练模型的权重训练模型</li>
-</ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/fine-tune/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

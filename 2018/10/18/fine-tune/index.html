@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：  普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。 如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟">
+<meta name="description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：">
 <meta name="keywords" content="神经网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fine-Tune">
 <meta property="og:url" content="https://liuzhidanhhh.github.io/2018/10/18/fine-tune/index.html">
 <meta property="og:site_name" content="Lzd&#39;s blog">
-<meta property="og:description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：  普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。 如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟">
+<meta property="og:description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T13:21:03.000Z">
+<meta property="og:updated_time" content="2018-10-18T13:26:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fine-Tune">
-<meta name="twitter:description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：  普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。 如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟">
+<meta name="twitter:description" content="主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。  为什么要使用fine-tuning ：">
 
 
 
@@ -332,6 +332,7 @@
       
         <p>主要是把现成的模型略加修改然后再作少量training，相比于从头开始训练节省了大量的时间和计算资源，甚至能够提升准确率。</p>
 <h3 id="为什么要使用fine-tuning"><a class="markdownIt-Anchor" href="#为什么要使用fine-tuning"></a> 为什么要使用fine-tuning ：</h3>
+<a id="more"></a>
 <ul>
 <li>普通的预训练模型（别人已经用训练及训练好了的模型，常用的有VGG16/19，Resnet等）已经具备了提取浅层特征和深处特征的能力。</li>
 <li>如果不使用fine-tuning 可能会出现模型不收敛、参数不够优化、准确率低、泛化能力低、易过拟合问题。（自己的数据集可能数据量不足）</li>
