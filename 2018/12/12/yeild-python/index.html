@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="预测性维护," />
+  <meta name="keywords" content="python," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="keywords" content="预测性维护">
+<meta name="description" content="yiled python 带有yeild 的函数被称为生成器（generator）函数。">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="预测性维护">
-<meta property="og:url" content="https://liuzhidanhhh.github.io/2018/08/15/预测性维护/index.html">
+<meta property="og:title" content="Yeild Python">
+<meta property="og:url" content="https://liuzhidanhhh.github.io/2018/12/12/yeild-python/index.html">
 <meta property="og:site_name" content="Lzd&#39;s blog">
+<meta property="og:description" content="yiled python 带有yeild 的函数被称为生成器（generator）函数。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://liuzhidanhhh.github.io/2018/08/15/预测性维护/images/hh.png">
-<meta property="og:updated_time" content="2018-08-16T16:07:47.000Z">
+<meta property="og:updated_time" content="2018-12-12T03:54:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="预测性维护">
-<meta name="twitter:image" content="https://liuzhidanhhh.github.io/2018/08/15/预测性维护/images/hh.png">
+<meta name="twitter:title" content="Yeild Python">
+<meta name="twitter:description" content="yiled python 带有yeild 的函数被称为生成器（generator）函数。">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://liuzhidanhhh.github.io/2018/08/15/预测性维护/"/>
+  <link rel="canonical" href="https://liuzhidanhhh.github.io/2018/12/12/yeild-python/"/>
 
 
 
 
 
-  <title>预测性维护 | Lzd's blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Yeild Python | Lzd's blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -262,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/08/15/预测性维护/">
+    <link itemprop="mainEntityOfPage" href="https://liuzhidanhhh.github.io/2018/12/12/yeild-python/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lzd">
@@ -279,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">预测性维护</h1>
+          <h1 class="post-title" itemprop="name headline">Yeild Python</h1>
         
 
         <div class="post-meta">
@@ -291,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-15T20:14:04+08:00">
-                2018-08-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-12T11:53:35+08:00">
+                2018-12-12
               </time>
             
 
@@ -329,7 +330,17 @@
       
 
       
-        <p><img src="images/hh.png" alt="hh"></p>
+        <h1 id="yiled-python"><a class="markdownIt-Anchor" href="#yiled-python"></a> yiled python</h1>
+<p>带有yeild 的函数被称为生成器（generator）函数。</p>
+<a id="more"></a>
+<p>例子：生成斐波那契数列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></span><br><span class="line">    n,a,b=<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    fab_list=[]</span><br><span class="line">    <span class="keyword">while</span> n&lt;max:</span><br><span class="line">        fab_list.append(b)</span><br><span class="line">        a,b=b,a+b</span><br><span class="line">        n+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> fab_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> fab(<span class="number">5</span>):</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+<p>存在问题：当max 很大的时候，函数fab在运行中占用内存大。</p>
+<p>利用yeild</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></span><br><span class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; max:</span><br><span class="line">        <span class="keyword">yield</span> b</span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> fab(<span class="number">5</span>):</span><br><span class="line">    print(i)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>yeild 的作用是把函数fab 变成一个generator。调用fab(5)的时候，不是在执行函数，而是返回一个iterable 对象。在for 循环中，执行fab内部的函数，直到遇到yield ，在一下次迭代中继续执行yield的下一条语句。迭代器记住了当前yield 语句中断时的环境变量，在下一次继续执行时恢复。因而使用yield 可减小内存占用。</p>
 
       
     </div>
@@ -347,7 +358,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/预测性维护/" rel="tag"># 预测性维护</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
         </div>
       
@@ -360,8 +371,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/15/PCA-降维/" rel="next" title="PCA 降维">
-                <i class="fa fa-chevron-left"></i> PCA 降维
+              <a href="/2018/10/18/fine-tune/" rel="next" title="Fine-Tune">
+                <i class="fa fa-chevron-left"></i> Fine-Tune
               </a>
             
           </div>
@@ -369,10 +380,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/16/OCR/" rel="prev" title="OCR">
-                OCR <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -424,8 +431,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -462,7 +478,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -485,6 +501,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#yiled-python"><span class="nav-number">1.</span> <span class="nav-text"> yiled python</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
